@@ -1,0 +1,28 @@
+{
+  "name": "@boilerplate/backend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "echo 'Backend uses TypeScript directly with Cloudflare Workers, no build needed'",
+    "deploy": "wrangler deploy",
+    "db:migrate": "wrangler d1 execute boilerplate-db --file=./src/db/schema.sql",
+    "test": "bunx --bun vitest",
+    "test:coverage": "bunx --bun vitest --coverage",
+    "typecheck": "bunx --bun tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.7.11",
+    "@hono/clerk-auth": "^2.0.0",
+    "stripe": "^17.4.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250607.0",
+    "wrangler": "^4.19.1",
+    "typescript": "^5.7.2",
+    "@types/bun": "^1.1.13",
+    "vitest": "^2.1.8",
+    "@vitest/coverage-v8": "^2.1.8"
+  }
+}

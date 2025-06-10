@@ -1,0 +1,105 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+          
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            **/node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+            
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies with Bun..."
+          # Remove any existing lockfile to avoid conflicts
+          rm -f bun.lockb
+          # Fresh install to generate new lockfile
+          bun install --no-save
+          
+      - name: Build web application
+        run: ./scripts/build-ci.sh
+      
+      - name: Verify build output
+        run: |
+          if [ ! -d "apps/web/dist" ]; then
+            echo "Error: Web build output not found!"
+            exit 1
+          fi
+          echo "✓ Web build output verified"
+          
+      - name: Verify secrets
+        run: |
+          echo "Checking required secrets..."
+          if [ -z "${{ secrets.CLOUDFLARE_API_TOKEN }}" ]; then
+            echo "❌ CLOUDFLARE_API_TOKEN is not set"
+            echo "Please add CLOUDFLARE_API_TOKEN to your repository secrets"
+            exit 1
+          else
+            echo "✓ CLOUDFLARE_API_TOKEN is set"
+          fi
+          
+          if [ -z "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" ]; then
+            echo "❌ CLOUDFLARE_ACCOUNT_ID is not set"
+            echo "Please add CLOUDFLARE_ACCOUNT_ID to your repository secrets"
+            exit 1
+          else
+            echo "✓ CLOUDFLARE_ACCOUNT_ID is set"
+          fi
+          
+      - name: Deploy to Cloudflare Workers
+        run: |
+          cd apps/backend
+          echo "Installing wrangler..."
+          bun add -D wrangler@latest
+          
+          echo "Deploying to Cloudflare Workers..."
+          bunx wrangler deploy --config wrangler.deploy.toml
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          
+      - name: Post-deployment verification
+        if: success()
+        run: |
+          echo "✅ Deployment completed successfully!"
+          echo "Your application is now live on Cloudflare Workers"
+          echo ""
+          echo "Next steps:"
+          echo "1. Check your Cloudflare dashboard for the worker URL"
+          echo "2. Verify the deployment at https://dash.cloudflare.com"
+          echo "3. Monitor logs with: wrangler tail --config apps/backend/wrangler.deploy.toml"
+          
+      - name: Deployment failed
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo ""
+          echo "Common issues:"
+          echo "1. Missing or invalid CLOUDFLARE_API_TOKEN"
+          echo "2. Missing or invalid CLOUDFLARE_ACCOUNT_ID"
+          echo "3. Build artifacts not found"
+          echo "4. Wrangler configuration issues"
+          echo ""
+          echo "Please check the logs above for specific error messages"

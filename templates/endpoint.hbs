@@ -1,0 +1,218 @@
+import { Hono } from 'hono'
+{{#if useAuth}}
+import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
+{{/if}}
+import type { Env } from '../index'
+
+const {{camelCase name}}Routes = new Hono<{ Bindings: Env }>()
+
+{{#if useAuth}}
+// Apply authentication middleware
+{{camelCase name}}Routes.use('*', clerkMiddleware())
+{{/if}}
+
+{{#eq methods 'get'}}
+// GET /{{dashCase name}}
+{{camelCase name}}Routes.get('/', async (c) => {
+  {{#if useAuth}}
+  const auth = getAuth(c)
+  if (!auth?.userId) {
+    return c.json({ error: 'Unauthorized' }, 401)
+  }
+  {{/if}}
+
+  try {
+    // TODO: Implement your GET logic here
+    const items = [] // Replace with actual data fetching
+    
+    return c.json({ {{camelCase name}}: items })
+  } catch (error) {
+    console.error('Error fetching {{camelCase name}}:', error)
+    return c.json({ error: 'Failed to fetch {{camelCase name}}' }, 500)
+  }
+})
+{{/eq}}
+
+{{#eq methods 'get-post'}}
+// GET /{{dashCase name}}
+{{camelCase name}}Routes.get('/', async (c) => {
+  {{#if useAuth}}
+  const auth = getAuth(c)
+  if (!auth?.userId) {
+    return c.json({ error: 'Unauthorized' }, 401)
+  }
+  {{/if}}
+
+  try {
+    // TODO: Implement your GET logic here
+    const items = [] // Replace with actual data fetching
+    
+    return c.json({ {{camelCase name}}: items })
+  } catch (error) {
+    console.error('Error fetching {{camelCase name}}:', error)
+    return c.json({ error: 'Failed to fetch {{camelCase name}}' }, 500)
+  }
+})
+
+// POST /{{dashCase name}}
+{{camelCase name}}Routes.post('/', async (c) => {
+  {{#if useAuth}}
+  const auth = getAuth(c)
+  if (!auth?.userId) {
+    return c.json({ error: 'Unauthorized' }, 401)
+  }
+  {{/if}}
+
+  try {
+    const body = await c.req.json()
+    
+    // TODO: Validate input data
+    // TODO: Implement your POST logic here
+    
+    const newItem = {
+      id: 'new-id', // Replace with actual ID generation
+      ...body,
+      createdAt: new Date().toISOString(),
+      {{#if useAuth}}
+      userId: auth.userId,
+      {{/if}}
+    }
+    
+    return c.json({ {{singularize (camelCase name)}}: newItem }, 201)
+  } catch (error) {
+    console.error('Error creating {{singularize (camelCase name)}}:', error)
+    return c.json({ error: 'Failed to create {{singularize (camelCase name)}}' }, 500)
+  }
+})
+{{/eq}}
+
+{{#eq methods 'crud'}}
+// GET /{{dashCase name}}
+{{camelCase name}}Routes.get('/', async (c) => {
+  {{#if useAuth}}
+  const auth = getAuth(c)
+  if (!auth?.userId) {
+    return c.json({ error: 'Unauthorized' }, 401)
+  }
+  {{/if}}
+
+  try {
+    // TODO: Implement your GET logic here
+    const items = [] // Replace with actual data fetching
+    
+    return c.json({ {{camelCase name}}: items })
+  } catch (error) {
+    console.error('Error fetching {{camelCase name}}:', error)
+    return c.json({ error: 'Failed to fetch {{camelCase name}}' }, 500)
+  }
+})
+
+// POST /{{dashCase name}}
+{{camelCase name}}Routes.post('/', async (c) => {
+  {{#if useAuth}}
+  const auth = getAuth(c)
+  if (!auth?.userId) {
+    return c.json({ error: 'Unauthorized' }, 401)
+  }
+  {{/if}}
+
+  try {
+    const body = await c.req.json()
+    
+    // TODO: Validate input data
+    // TODO: Implement your POST logic here
+    
+    const newItem = {
+      id: 'new-id', // Replace with actual ID generation
+      ...body,
+      createdAt: new Date().toISOString(),
+      {{#if useAuth}}
+      userId: auth.userId,
+      {{/if}}
+    }
+    
+    return c.json({ {{singularize (camelCase name)}}: newItem }, 201)
+  } catch (error) {
+    console.error('Error creating {{singularize (camelCase name)}}:', error)
+    return c.json({ error: 'Failed to create {{singularize (camelCase name)}}' }, 500)
+  }
+})
+
+// GET /{{dashCase name}}/:id
+{{camelCase name}}Routes.get('/:id', async (c) => {
+  {{#if useAuth}}
+  const auth = getAuth(c)
+  if (!auth?.userId) {
+    return c.json({ error: 'Unauthorized' }, 401)
+  }
+  {{/if}}
+
+  try {
+    const id = c.req.param('id')
+    
+    // TODO: Implement your GET by ID logic here
+    const item = null // Replace with actual data fetching
+    
+    if (!item) {
+      return c.json({ error: '{{titleCase (singularize name)}} not found' }, 404)
+    }
+    
+    return c.json({ {{singularize (camelCase name)}}: item })
+  } catch (error) {
+    console.error('Error fetching {{singularize (camelCase name)}}:', error)
+    return c.json({ error: 'Failed to fetch {{singularize (camelCase name)}}' }, 500)
+  }
+})
+
+// PATCH /{{dashCase name}}/:id
+{{camelCase name}}Routes.patch('/:id', async (c) => {
+  {{#if useAuth}}
+  const auth = getAuth(c)
+  if (!auth?.userId) {
+    return c.json({ error: 'Unauthorized' }, 401)
+  }
+  {{/if}}
+
+  try {
+    const id = c.req.param('id')
+    const body = await c.req.json()
+    
+    // TODO: Validate input data
+    // TODO: Implement your PATCH logic here
+    
+    const updatedItem = {
+      id,
+      ...body,
+      updatedAt: new Date().toISOString(),
+    }
+    
+    return c.json({ {{singularize (camelCase name)}}: updatedItem })
+  } catch (error) {
+    console.error('Error updating {{singularize (camelCase name)}}:', error)
+    return c.json({ error: 'Failed to update {{singularize (camelCase name)}}' }, 500)
+  }
+})
+
+// DELETE /{{dashCase name}}/:id
+{{camelCase name}}Routes.delete('/:id', async (c) => {
+  {{#if useAuth}}
+  const auth = getAuth(c)
+  if (!auth?.userId) {
+    return c.json({ error: 'Unauthorized' }, 401)
+  }
+  {{/if}}
+
+  try {
+    const id = c.req.param('id')
+    
+    // TODO: Implement your DELETE logic here
+    
+    return c.json({ message: '{{titleCase (singularize name)}} deleted successfully' })
+  } catch (error) {
+    console.error('Error deleting {{singularize (camelCase name)}}:', error)
+    return c.json({ error: 'Failed to delete {{singularize (camelCase name)}}' }, 500)
+  }
+})
+{{/eq}}
+
+export { {{camelCase name}}Routes }

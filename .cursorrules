@@ -1,0 +1,83 @@
+# Cursor Rules for this Project
+
+## Tech Stack
+- Web Frontend: React, TypeScript, Vite, Tailwind CSS, shadcn/ui (NO Next.js)
+- Mobile App: React Native, Expo, TypeScript
+- Backend: Cloudflare Workers, Hono
+- Database: Cloudflare D1 (SQLite), KV Store
+- Auth: Clerk (web and mobile)
+- Deployment: Cloudflare (web/backend), Expo EAS (mobile)
+
+## Important Rules
+- NO Next.js - This is a Vite + React project by design
+- Always use Cloudflare Workers for backend, not Node.js
+- Prefer edge-native solutions over traditional server patterns
+- Share types between web, mobile, and backend via shared/ directory
+- Use the same API client pattern for both web and mobile
+
+## Code Style
+- Use TypeScript strictly, avoid `any`
+- Prefer functional components with hooks
+- Use existing UI components from src/components/ui/
+- Keep components small and focused
+- Use proper error boundaries
+
+## File Conventions
+- Components: PascalCase (e.g., `UserProfile.tsx`)
+- Utilities: camelCase (e.g., `formatDate.ts`)
+- Types: PascalCase with `.types.ts` extension
+- Tests: Same name with `.test.ts` or `.spec.ts`
+
+## Import Order
+1. React/Next imports
+2. Third-party libraries
+3. Internal components
+4. Internal utilities
+5. Types
+6. Styles
+
+## Component Structure
+```tsx
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { formatDate } from '@/lib/utils'
+import type { User } from '@/shared/types'
+
+interface Props {
+  user: User
+}
+
+export function UserProfile({ user }: Props) {
+  // hooks first
+  const [isEditing, setIsEditing] = useState(false)
+  
+  // handlers
+  const handleEdit = () => {
+    setIsEditing(true)
+  }
+  
+  // render
+  return (
+    <div>
+      {/* content */}
+    </div>
+  )
+}
+```
+
+## API Patterns
+- Use `/api/v1/` prefix for all endpoints
+- Return consistent error objects: `{ error: string, code: string }`
+- Always validate input data
+- Use proper HTTP status codes
+
+## Database Queries
+- Use prepared statements for D1
+- Keep queries in service layer
+- Handle errors gracefully
+- Use transactions where appropriate
+
+## Common Shortcuts
+- Generate CRUD endpoint: Ask for "Create CRUD endpoints for [resource]"
+- Add new page: Ask for "Create a new page for [feature]"
+- Database migration: Ask for "Create migration for [table/change]"

@@ -1,0 +1,14 @@
+{
+  "$schema": "../gen/schemas/capabilities.json",
+  "identifier": "default",
+  "description": "Default permissions for the app",
+  "platforms": ["linux", "macOS", "windows", "android", "iOS"],
+  "permissions": [
+    "core:default",
+    "shell:allow-open",
+    "http:default",
+    "notification:default",
+    "clipboard-manager:default",
+    "deep-link:default"
+  ]
+}

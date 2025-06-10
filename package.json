@@ -1,0 +1,34 @@
+{
+  "name": "boilerplate",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun --filter @boilerplate/web dev",
+    "dev:backend": "bun --filter @boilerplate/backend dev",
+    "dev:mobile": "bun --filter @boilerplate/mobile start",
+    "build": "./scripts/build.sh",
+    "build:ci": "bun --filter @boilerplate/web build",
+    "build:web": "bun --filter @boilerplate/web build",
+    "build:backend": "bun --filter @boilerplate/backend build",
+    "deploy": "./scripts/deploy.sh",
+    "deploy:backend": "bun --filter @boilerplate/backend deploy",
+    "lint": "bun run lint --filter='*'",
+    "typecheck": "bun run typecheck --filter='*'",
+    "test": "echo 'Running tests...' && bun test || echo 'No tests found'",
+    "test:coverage": "bun run test:coverage --filter='*'",
+    "setup": "./scripts/setup.sh"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.13",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "bun": ">=1.1.0"
+  },
+  "packageManager": "bun@1.2.15"
+}

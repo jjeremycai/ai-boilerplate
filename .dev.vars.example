@@ -1,0 +1,8 @@
+# Clerk Authentication (Required for Worker)
+# Get these from https://dashboard.clerk.dev
+CLERK_SECRET_KEY=sk_test_YOUR_SECRET_KEY_HERE
+CLERK_PUBLISHABLE_KEY=pk_test_YOUR_PUBLISHABLE_KEY_HERE
+
+# Optional: AI Gateway (for rate limiting)
+# AI_GATEWAY_ACCOUNT_ID=your_account_id
+# AI_GATEWAY_ID=your_gateway_id

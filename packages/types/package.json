@@ -1,0 +1,17 @@
+{
+  "name": "@boilerplate/types",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "typecheck": "bunx --bun tsc --noEmit",
+    "test": "echo 'No tests for types package'"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

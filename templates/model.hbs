@@ -1,0 +1,26 @@
+export interface {{titleCase name}} {
+  id: string
+{{#each (split fields ',')}}
+  {{#with (split this ':')}}
+  {{trim (lookup this 0)}}: {{#eq (trim (lookup this 1)) 'string'}}string{{else}}{{#eq (trim (lookup this 1)) 'number'}}number{{else}}{{#eq (trim (lookup this 1)) 'boolean'}}boolean{{else}}string{{/eq}}{{/eq}}{{/eq}}
+  {{/with}}
+{{/each}}
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Create{{titleCase name}}Request {
+{{#each (split fields ',')}}
+  {{#with (split this ':')}}
+  {{trim (lookup this 0)}}: {{#eq (trim (lookup this 1)) 'string'}}string{{else}}{{#eq (trim (lookup this 1)) 'number'}}number{{else}}{{#eq (trim (lookup this 1)) 'boolean'}}boolean{{else}}string{{/eq}}{{/eq}}{{/eq}}
+  {{/with}}
+{{/each}}
+}
+
+export interface Update{{titleCase name}}Request {
+{{#each (split fields ',')}}
+  {{#with (split this ':')}}
+  {{trim (lookup this 0)}}?: {{#eq (trim (lookup this 1)) 'string'}}string{{else}}{{#eq (trim (lookup this 1)) 'number'}}number{{else}}{{#eq (trim (lookup this 1)) 'boolean'}}boolean{{else}}string{{/eq}}{{/eq}}{{/eq}}
+  {{/with}}
+{{/each}}
+}

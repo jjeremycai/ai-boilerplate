@@ -1,0 +1,107 @@
+{
+  "_comment": "MCP Configuration for Claude Desktop - Copy to ~/.config/claude-desktop/mcp_settings.json and update API keys",
+  "mcpServers": {
+    "stripe": {
+      "command": "node",
+      "args": [
+        "../../stripe/mcp-server-stripe/dist/index.js"
+      ],
+      "cwd": "/Users/jeremycai/Documents",
+      "env": {
+        "STRIPE_API_KEY": "sk_test_YOUR_STRIPE_API_KEY_HERE"
+      }
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_TOKEN": "ghp_YOUR_GITHUB_TOKEN_HERE"
+      }
+    },
+    "cloudflare-docs": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://docs.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare documentation and guides"
+    },
+    "cloudflare-workers-bindings": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://bindings.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare Workers bindings management"
+    },
+    "cloudflare-workers-builds": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://builds.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare Workers build and deployment"
+    },
+    "cloudflare-observability": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://observability.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare monitoring and analytics"
+    },
+    "cloudflare-radar": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://radar.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare Radar security and performance insights"
+    },
+    "cloudflare-containers": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://containers.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare container and orchestration services"
+    },
+    "cloudflare-browser-rendering": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://browser.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare Browser Rendering API"
+    },
+    "cloudflare-logpush": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://logs.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare log management and analytics"
+    },
+    "cloudflare-ai-gateway": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://ai-gateway.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare AI Gateway for LLM management"
+    },
+    "cloudflare-autorag": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://autorag.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare AutoRAG for AI applications"
+    },
+    "cloudflare-audit-logs": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://auditlogs.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare audit logs and compliance"
+    },
+    "cloudflare-dns-analytics": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://dns-analytics.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare DNS analytics and insights"
+    },
+    "cloudflare-dex": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://dex.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare Digital Experience Monitoring"
+    },
+    "cloudflare-casb": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://casb.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare Cloud Access Security Broker"
+    },
+    "cloudflare-graphql": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://graphql.mcp.cloudflare.com/sse"],
+      "description": "Cloudflare GraphQL API access"
+    }
+  }
+}

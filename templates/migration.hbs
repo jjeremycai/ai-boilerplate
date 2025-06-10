@@ -1,0 +1,33 @@
+-- Migration: {{name}}
+-- Created: {{timestamp}}
+
+{{#eq type 'create'}}
+CREATE TABLE {{snakeCase (pluralize name)}} (
+  id TEXT PRIMARY KEY,
+{{#each (split fields ',')}}
+  {{#with (split this ':')}}
+  {{snakeCase (trim (lookup this 0))}} {{#eq (trim (lookup this 1)) 'string'}}TEXT{{else}}{{#eq (trim (lookup this 1)) 'number'}}INTEGER{{else}}{{#eq (trim (lookup this 1)) 'boolean'}}BOOLEAN{{else}}TEXT{{/eq}}{{/eq}}{{/eq}} NOT NULL,
+  {{/with}}
+{{/each}}
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Add indexes if needed
+-- CREATE INDEX idx_{{snakeCase (pluralize name)}}_user_id ON {{snakeCase (pluralize name)}}(user_id);
+{{/eq}}
+
+{{#eq type 'alter'}}
+-- Alter table {{snakeCase name}}
+-- Add your ALTER TABLE statements here
+
+-- Example:
+-- ALTER TABLE {{snakeCase name}} ADD COLUMN new_field TEXT;
+-- ALTER TABLE {{snakeCase name}} DROP COLUMN old_field;
+{{/eq}}
+
+{{#eq type 'custom'}}
+-- Custom migration: {{name}}
+-- Add your custom SQL statements here
+
+{{/eq}}

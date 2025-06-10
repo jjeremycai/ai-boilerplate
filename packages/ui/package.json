@@ -1,0 +1,23 @@
+{
+  "name": "@boilerplate/ui",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./*": "./*.tsx"
+  },
+  "scripts": {
+    "typecheck": "bunx --bun tsc --noEmit",
+    "test": "echo 'No tests for UI package yet'"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "lucide-react": "^0.513.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.6",
+    "typescript": "^5.7.2"
+  }
+}

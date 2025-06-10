@@ -1,0 +1,70 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Boilerplate",
+  "version": "0.1.0",
+  "identifier": "com.boilerplate.app",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:5173",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Boilerplate",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 600,
+        "minHeight": 400,
+        "center": true,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": {
+        "default-src": "'self' customprotocol: asset:",
+        "connect-src": "ipc: http://ipc.localhost http://localhost:* https://*.workers.dev https://*.clerk.dev wss://* ws://localhost:*",
+        "img-src": "'self' data: https: blob: asset: http://asset.localhost",
+        "script-src": "'self' 'unsafe-inline' 'unsafe-eval'",
+        "style-src": "'self' 'unsafe-inline'"
+      }
+    },
+    "macOSPrivateApi": true
+  },
+  "plugins": {
+    "shell": {
+      "open": true
+    },
+    "http": {
+      "scope": ["http://localhost:*", "https://*.workers.dev", "https://*.clerk.dev"]
+    },
+    "notification": {
+      "all": true
+    },
+    "clipboard-manager": {
+      "all": true
+    },
+    "deep-link": {
+      "all": true
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "iOS": {
+      "developmentTeam": "YOUR_TEAM_ID"
+    },
+    "android": {
+      "minSdkVersion": 24
+    },
+    "macOS": {
+      "minimumSystemVersion": "10.15"
+    },
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256"
+    }
+  }
+}
