@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "identifier": "com.boilerplate.app",
   "build": {
-    "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "cd ../web && npm run dev",
+    "beforeBuildCommand": "cd ../web && npm run build",
     "devUrl": "http://localhost:5173",
-    "frontendDist": "../dist"
+    "frontendDist": "../web/dist"
   },
   "app": {
     "windows": [
