@@ -1,15 +1,30 @@
 import { Hono } from 'hono'
 import { requireAuth } from '../middleware/clerk'
 import { ProjectService } from '../services/project.service'
+import { ShardedProjectService } from '../services/sharded-project.service'
+import { getShardContext } from '../lib/shard-context'
 import type { Env } from '../index'
 import type { CreateProjectInput, UpdateProjectInput } from '../../shared/types'
 
 export const projectRoutes = new Hono<{ Bindings: Env }>()
 
+// Helper to get the appropriate service
+function getProjectService(c: any) {
+  // Check if sharding is enabled by looking for shard bindings
+  const hasShards = Object.keys(c.env).some(key => key.startsWith('DB_VOL_'));
+  
+  if (hasShards) {
+    const { db } = getShardContext(c);
+    return new ShardedProjectService(db);
+  } else {
+    return new ProjectService(c.env.DB);
+  }
+}
+
 // List all projects for the authenticated user
 projectRoutes.get('/', requireAuth, async (c) => {
   const user = c.get('user')
-  const projectService = new ProjectService(c.env.DB)
+  const projectService = getProjectService(c)
   
   try {
     const projects = await projectService.listProjects(user.id)
@@ -23,7 +38,7 @@ projectRoutes.get('/', requireAuth, async (c) => {
 projectRoutes.get('/:id', requireAuth, async (c) => {
   const user = c.get('user')
   const projectId = c.req.param('id')
-  const projectService = new ProjectService(c.env.DB)
+  const projectService = getProjectService(c)
   
   try {
     const project = await projectService.getProject(projectId, user.id)
@@ -40,7 +55,7 @@ projectRoutes.get('/:id', requireAuth, async (c) => {
 projectRoutes.post('/', requireAuth, async (c) => {
   const user = c.get('user')
   const body = await c.req.json<CreateProjectInput>()
-  const projectService = new ProjectService(c.env.DB)
+  const projectService = getProjectService(c)
   
   // Validate input
   if (!body.name || body.name.trim().length === 0) {
@@ -60,7 +75,7 @@ projectRoutes.patch('/:id', requireAuth, async (c) => {
   const user = c.get('user')
   const projectId = c.req.param('id')
   const body = await c.req.json<UpdateProjectInput>()
-  const projectService = new ProjectService(c.env.DB)
+  const projectService = getProjectService(c)
   
   try {
     const project = await projectService.updateProject(projectId, user.id, body)
@@ -77,7 +92,7 @@ projectRoutes.patch('/:id', requireAuth, async (c) => {
 projectRoutes.delete('/:id', requireAuth, async (c) => {
   const user = c.get('user')
   const projectId = c.req.param('id')
-  const projectService = new ProjectService(c.env.DB)
+  const projectService = getProjectService(c)
   
   try {
     const deleted = await projectService.deleteProject(projectId, user.id)
@@ -94,7 +109,7 @@ projectRoutes.delete('/:id', requireAuth, async (c) => {
 projectRoutes.get('/:id/stats', requireAuth, async (c) => {
   const user = c.get('user')
   const projectId = c.req.param('id')
-  const projectService = new ProjectService(c.env.DB)
+  const projectService = getProjectService(c)
   
   try {
     const stats = await projectService.getProjectStats(projectId, user.id)

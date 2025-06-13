@@ -19,6 +19,8 @@
     "build:desktop": "bun --filter @boilerplate/desktop build",
     "deploy": "./scripts/deploy.sh",
     "deploy:backend": "bun --filter @boilerplate/backend deploy",
+    "deploy:sharding": "./scripts/deploy-sharding.sh",
+    "migrate-to-shards": "node ./scripts/migrate-to-shards.js",
     "lint": "bun run lint --filter='*'",
     "typecheck": "bun run typecheck --filter='*'",
     "test": "echo 'Running tests...' && bun test || echo 'No tests found'",

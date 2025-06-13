@@ -11,11 +11,33 @@ vars = { ENVIRONMENT = "development" }
 [env.production]
 vars = { ENVIRONMENT = "production" }
 
-# D1 Database
+# D1 Database - Primary shard (legacy support)
 [[d1_databases]]
 binding = "DB"
 database_name = "boilerplate-db"
 database_id = "YOUR_DATABASE_ID"
+
+# Volume-based Shards
+# Format: DB_VOL_<index>_<hash>
+# Add new shards as your data grows
+
+# Shard 1
+[[d1_databases]]
+binding = "DB_VOL_001_abc123def"
+database_name = "boilerplate-shard-001"
+database_id = "YOUR_SHARD_001_ID"
+
+# Shard 2 (uncomment when needed)
+# [[d1_databases]]
+# binding = "DB_VOL_002_ghi456jkl"
+# database_name = "boilerplate-shard-002"
+# database_id = "YOUR_SHARD_002_ID"
+
+# Shard 3 (uncomment when needed)
+# [[d1_databases]]
+# binding = "DB_VOL_003_mno789pqr"
+# database_name = "boilerplate-shard-003"
+# database_id = "YOUR_SHARD_003_ID"
 
 # KV Namespace
 [[kv_namespaces]]
@@ -56,6 +78,10 @@ upload_source_maps = true
 
 # AI binding for Workers AI
 ai = { binding = "AI" }
+
+# Scheduled worker for shard monitoring
+[[triggers.crons]]
+cron = "0 */2 * * *" # Every 2 hours
 
 # Secrets (set these with wrangler secret put)
 # CLERK_SECRET_KEY

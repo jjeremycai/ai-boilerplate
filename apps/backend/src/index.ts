@@ -22,6 +22,8 @@ export interface Env {
   AI: any // Cloudflare Workers AI
   AI_GATEWAY_ACCOUNT_ID?: string
   AI_GATEWAY_ID?: string
+  // Volume-based shard bindings
+  [key: string]: any // Allow dynamic shard bindings like DB_VOL_001_*
 }
 
 const app = new Hono<{ Bindings: Env }>()
@@ -100,3 +102,6 @@ export default app
 export { ChatRoom } from './durable-objects/ChatRoom'
 export { UserSession } from './durable-objects/UserSession'
 export { AgentChatRoom } from './durable-objects/AgentChatRoom'
+
+// Export scheduled handler for shard monitoring
+export { default as scheduled } from './scheduled'
