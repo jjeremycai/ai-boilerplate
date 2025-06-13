@@ -125,8 +125,23 @@ git push main  # Auto-deploys via GitHub Actions
   - D1 Database for items management
   - KV Store for SEO blog posts
   - AI Chat with persistent history (Durable Objects)
+- **Volume-Based D1 Sharding** - Scale beyond 10GB limit automatically
 - **Minimal dependencies** - only essentials
 - **Fast builds** - optimized for quick deployment
-- **Intern-friendly** - simple, working code
+- **Production-ready** - Built to scale from day one
+
+## Optional: Enable Sharding
+
+If you expect to scale beyond D1's 10GB limit:
+
+```bash
+# Deploy with sharding support
+npm run deploy:sharding
+
+# Check shard health
+curl https://your-worker.workers.dev/api/v1/shards/health
+```
+
+See [docs/VOLUME-SHARDING.md](./docs/VOLUME-SHARDING.md) for full setup.
 
 Ready to build! 🚀

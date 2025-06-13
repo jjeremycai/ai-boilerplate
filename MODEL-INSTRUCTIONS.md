@@ -5,11 +5,11 @@ This is a full-stack application with universal app support using:
 - **Frontend**: React + TypeScript + Vite + Tailwind CSS (NO Next.js, NO shadcn/ui)
 - **Native Apps**: Tauri 2.0 for iOS, Android, macOS, Windows, Linux
 - **Backend**: Cloudflare Workers (edge-first, not Node.js)
-- **Database**: Cloudflare D1 (SQL) and KV (key-value store)
+- **Database**: Cloudflare D1 (SQL) with volume-based sharding + KV (key-value store)
 - **Authentication**: Clerk (works on all platforms)
 - **Real-time**: WebSocket chat with Durable Objects
 - **Deployment**: Cloudflare (web + backend), Native app stores
-- **Philosophy**: Minimal dependencies (350 packages vs typical 857+), pure Tailwind CSS
+- **Philosophy**: Minimal dependencies, pure Tailwind CSS, built for scale
 
 ## Critical Rules
 1. **NO Next.js** - This is a Vite + React project by design
@@ -94,10 +94,13 @@ Common:
 5. Return consistent error responses
 
 ### Database
-1. D1 for relational data (projects, tasks, users)
+1. D1 for relational data (projects, tasks, users) with automatic volume-based sharding
 2. KV for caching and session data
 3. All migrations in `worker/src/db/migrations/`
 4. Use prepared statements for D1 queries
+5. Sharding is transparent - system auto-detects DB_VOL_* bindings
+6. Routes automatically use sharded services when sharding is enabled
+7. Monitor shard health via `/api/v1/shards/health` endpoint
 
 ### Authentication
 1. Clerk handles all auth flows
@@ -162,6 +165,8 @@ wrangler secret put CLERK_PUBLISHABLE_KEY
 2. Update types in `shared/types/`
 3. Run `npm run db:migrate`
 4. Update relevant services
+5. If using sharding, migrations apply to all shards
+6. Use `npm run migrate-to-shards` to move existing data to sharded architecture
 
 ### Working with Durable Objects
 1. Define DO class in `worker/src/durable-objects/`

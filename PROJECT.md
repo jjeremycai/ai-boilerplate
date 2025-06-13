@@ -15,10 +15,11 @@
 - [ ] Goal 3
 
 ## Built-in Features
-<!-- The boilerplate includes these three integrated features -->
+<!-- The boilerplate includes these integrated features -->
 1. **D1 Database Management** - Full CRUD operations with SQL editor for Cloudflare D1
 2. **KV Blog System** - SEO-optimized blog using Cloudflare KV for content storage
 3. **AI Chat** - Persistent chat interface with conversation history
+4. **Volume-Based Sharding** - Automatic horizontal scaling for D1 databases beyond 10GB
 
 ## Core Features
 <!-- List the additional features your application needs beyond the built-in ones -->

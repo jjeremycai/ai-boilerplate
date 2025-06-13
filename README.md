@@ -1,16 +1,17 @@
 # AI-First Full-Stack Development Boilerplate
 
-**Launch production apps in 15-60 minutes** with AI assistance. Designed for interns to deploy with Claude/Cursor in under an hour.
+**Launch production apps in under an hour** with AI assistance. Designed for developers to deploy with Claude/Cursor quickly and efficiently.
 
 ## 🎯 Purpose
 
 This boilerplate serves as a zero-to-production starting point for AI-assisted development:
 - **One-command setup** - From clone to deployed app in minutes
-- **Three complexity tiers** - Lite (15min), Standard (45min), Enterprise (60min)
+- **Production-ready** - Full-stack app with auth, database, and real-time features
 - **AI-optimized** - Full MCP integration + structured docs for Claude/Cursor
 - **Edge-first architecture** - Global deployment on Cloudflare's network
+- **Scalable by design** - Built-in volume-based D1 sharding for growth
 - **Real demo data** - See it working immediately
-- **Minimal dependencies** - Only 350 packages, no heavy component libraries
+- **Minimal dependencies** - Clean codebase, no heavy component libraries
 
 ## 🚀 Quick Start
 
@@ -29,37 +30,33 @@ The app needs:
 
 Without these, features will show errors. Full setup takes ~10 minutes.
 
-## 🎯 Choose Your Template
+## 🎯 What's Included
 
-### 🚀 Lite Template (15 minutes)
-**Perfect for:** APIs, microservices, proof of concepts
-- ✅ Basic API endpoints (`/health`, `/api/hello`, `/api/items`)
-- ✅ CORS and error handling with helpful messages
-- ✅ In-memory data storage (resets on deploy)
-- ❌ No database or authentication
+This full-stack boilerplate includes everything you need for production:
 
-```bash
-npm run dev:lite  # Simplified version
-```
+### Core Features
+- ✅ **API Backend** - Cloudflare Workers with Hono framework
+- ✅ **Database** - D1 (SQLite) with automatic volume-based sharding
+- ✅ **Authentication** - Clerk for web & mobile auth
+- ✅ **Real-time** - WebSockets via Durable Objects
+- ✅ **Storage** - KV for fast key-value storage
+- ✅ **AI Integration** - Workers AI for text, chat, and image generation
 
-### 💪 Standard Template (45 minutes)
-**Perfect for:** Full-stack MVPs, SaaS apps
-- ✅ Everything in Lite
-- ✅ Cloudflare D1 database + KV storage
-- ✅ Clerk authentication (web + mobile)
-- ✅ React web app + Expo mobile app
-- ✅ Real-time chat with WebSockets
-- ✅ **Workers AI integration** - Text, chat, image generation
-- ✅ **Agent SDK** - Complex AI workflows
-- ✅ Demo project/task data preloaded
+### Frontend Apps
+- ✅ **Web App** - React 19 + TypeScript + Vite + Tailwind CSS
+- ✅ **Mobile App** - Expo + React Native + TypeScript
+- ✅ **Desktop App** - Tauri (Rust) for native desktop
 
-### 🏢 Enterprise Template (60 minutes)
-**Perfect for:** Production applications
-- ✅ Everything in Standard
-- ✅ Monitoring and observability
-- ✅ Security hardening
-- ✅ CI/CD pipeline setup
-- ✅ Multi-environment configuration
+### Developer Experience
+- ✅ **Type Safety** - End-to-end TypeScript
+- ✅ **Hot Reload** - Fast development iteration
+- ✅ **AI-Ready** - MCP integration + structured docs
+- ✅ **One-Command Deploy** - Ship to production instantly
+
+### Scalability Built-In
+- ✅ **Volume-Based Sharding** - Automatically scale beyond D1's 10GB limit
+- ✅ **Shard Monitoring** - Health checks and capacity tracking
+- ✅ **Zero-Downtime Migration** - Move data without service interruption
 
 ## 🤖 AI-First Development
 
@@ -289,6 +286,29 @@ npm run deploy
 - Durable Objects → Stateful services
 - Database → D1 (SQLite at the edge)
 ```
+
+### 📊 Volume-Based D1 Sharding
+
+Built-in horizontal scaling for D1 databases:
+
+```bash
+# Deploy with sharding support
+npm run deploy:sharding
+
+# Check shard health
+curl https://your-worker.workers.dev/api/v1/shards/health
+
+# Migrate existing data to shards
+npm run migrate-to-shards
+```
+
+**Features:**
+- **Automatic capacity-based routing** - Records go to shards with space
+- **No central coordination** - Shard info embedded in record IDs
+- **Health monitoring** - Track usage and get alerts before limits
+- **Zero-downtime migration** - Move data without service interruption
+
+See [docs/VOLUME-SHARDING.md](./docs/VOLUME-SHARDING.md) for detailed setup.
 
 ### Build Troubleshooting
 
