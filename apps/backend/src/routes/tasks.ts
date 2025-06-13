@@ -1,10 +1,24 @@
 import { Hono } from 'hono'
 import { requireAuth } from '../middleware/clerk'
 import { TaskService } from '../services/task.service'
+import { ShardedTaskService } from '../services/sharded-task.service'
+import { getShardContext } from '../lib/shard-context'
 import type { Env } from '../index'
 import type { CreateTaskInput, UpdateTaskInput } from '../../shared/types'
 
 export const taskRoutes = new Hono<{ Bindings: Env }>()
+
+// Helper to get the appropriate service
+function getTaskService(c: any) {
+  const hasShards = Object.keys(c.env).some(key => key.startsWith('DB_VOL_'));
+  
+  if (hasShards) {
+    const { db } = getShardContext(c);
+    return new ShardedTaskService(db);
+  } else {
+    return new TaskService(c.env.DB);
+  }
+}
 
 // List tasks with filters
 taskRoutes.get('/', requireAuth, async (c) => {
@@ -12,15 +26,21 @@ taskRoutes.get('/', requireAuth, async (c) => {
   const projectId = c.req.query('projectId')
   const status = c.req.query('status')
   const priority = c.req.query('priority')
-  const taskService = new TaskService(c.env.DB)
+  const taskService = getTaskService(c)
   
   try {
-    const tasks = await taskService.listTasks(user.id, {
-      projectId,
-      status: status as any,
-      priority: priority as any,
-    })
-    return c.json({ data: tasks })
+    // Handle different method signatures
+    if (taskService instanceof ShardedTaskService) {
+      const tasks = await taskService.listTasks(user.id, projectId, status)
+      return c.json({ data: tasks })
+    } else {
+      const tasks = await taskService.listTasks(user.id, {
+        projectId,
+        status: status as any,
+        priority: priority as any,
+      })
+      return c.json({ data: tasks })
+    }
   } catch (error) {
     throw error
   }
