@@ -18,6 +18,8 @@ The sharding system consists of:
 - **Backward compatible** - works alongside non-sharded deployments
 - **Health monitoring** - tracks shard usage and capacity
 - **Migration tools** - move existing data to sharded architecture
+- **Cross-shard deduplication** - enforce unique constraints across all shards
+- **Duplicate detection** - find and clean up duplicates across shards
 
 ## Architecture
 
@@ -179,6 +181,49 @@ curl -X POST https://your-worker.workers.dev/migrate
 3. Deploy updated Worker
 4. System automatically uses new shard
 
+## Deduplication & Unique Constraints
+
+The sharding system includes built-in support for enforcing unique constraints across all shards.
+
+### Check for Duplicates
+
+```bash
+# Find duplicates across all shards
+curl -X POST https://your-worker.workers.dev/api/v1/shards/duplicates/check \
+  -H "Content-Type: application/json" \
+  -d '{"table": "users", "column": "email"}'
+
+# Check if a value is unique
+curl -X POST https://your-worker.workers.dev/api/v1/shards/unique/check \
+  -H "Content-Type: application/json" \
+  -d '{"table": "users", "column": "email", "value": "test@example.com"}'
+```
+
+### Clean Up Duplicates
+
+```bash
+# Remove duplicates, keeping the first occurrence
+curl -X POST https://your-worker.workers.dev/api/v1/shards/duplicates/cleanup \
+  -H "Content-Type: application/json" \
+  -d '{"table": "users", "column": "email", "keepStrategy": "first"}'
+```
+
+### Automatic Enforcement
+
+By default, the sharded database service enforces unique constraints on:
+- `users.email`
+- `users.username`
+
+Add more constraints in `lib/shard-dedup.ts`:
+
+```typescript
+this.addGlobalIndex({
+  table: 'your_table',
+  columns: ['your_column'],
+  name: 'your_unique_index_name'
+});
+```
+
 ## Best Practices
 
 1. **Start Simple**: Begin with 1-2 shards and add more as needed
@@ -186,6 +231,8 @@ curl -X POST https://your-worker.workers.dev/migrate
 3. **Plan Ahead**: Add new shards before hitting capacity limits
 4. **Test Migrations**: Always test in development first
 5. **Backup Data**: Keep backups before major migrations
+6. **Run Dedup Checks**: Periodically check for duplicates after migrations
+7. **Define Constraints Early**: Set up unique constraints before data grows
 
 ## Troubleshooting
 

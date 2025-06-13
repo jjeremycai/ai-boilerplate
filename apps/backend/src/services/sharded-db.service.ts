@@ -1,26 +1,41 @@
 import { D1Database } from '@cloudflare/workers-types';
 import { UniversalIdGenerator } from '../lib/universal-id';
 import { DatabaseRouter } from '../lib/database-router';
+import { ShardDeduplicationService } from '../lib/shard-dedup';
 
 export interface ShardedDbConfig {
   idGenerator: UniversalIdGenerator;
   router: DatabaseRouter;
+  dedup?: ShardDeduplicationService;
+  enforceUniqueConstraints?: boolean;
 }
 
 export class ShardedDbService {
   private idGenerator: UniversalIdGenerator;
   private router: DatabaseRouter;
+  private dedup?: ShardDeduplicationService;
+  private enforceUniqueConstraints: boolean;
 
   constructor(config: ShardedDbConfig) {
     this.idGenerator = config.idGenerator;
     this.router = config.router;
+    this.dedup = config.dedup;
+    this.enforceUniqueConstraints = config.enforceUniqueConstraints ?? true;
   }
 
   async create<T extends Record<string, any>>(
     tableName: string,
     data: Omit<T, 'id'>,
-    options?: { timestamp?: number }
+    options?: { timestamp?: number; skipUniqueCheck?: boolean }
   ): Promise<T & { id: string }> {
+    // Check unique constraints if enabled
+    if (this.enforceUniqueConstraints && this.dedup && !options?.skipUniqueCheck) {
+      const validation = await this.dedup.validateUniqueConstraints(tableName, data);
+      if (!validation.valid) {
+        throw new Error(`Unique constraint violation: ${validation.violations.join(', ')}`);
+      }
+    }
+
     // Get active shard for writing
     const { shardId, db } = await this.router.getActiveShardForWrite();
 
@@ -79,8 +94,17 @@ export class ShardedDbService {
   async update<T extends Record<string, any>>(
     tableName: string,
     id: string,
-    data: Partial<Omit<T, 'id'>>
+    data: Partial<Omit<T, 'id'>>,
+    options?: { skipUniqueCheck?: boolean }
   ): Promise<boolean> {
+    // Check unique constraints if enabled
+    if (this.enforceUniqueConstraints && this.dedup && !options?.skipUniqueCheck) {
+      const validation = await this.dedup.validateUniqueConstraints(tableName, data, id);
+      if (!validation.valid) {
+        throw new Error(`Unique constraint violation: ${validation.violations.join(', ')}`);
+      }
+    }
+
     // Get the correct shard for this ID
     const db = await this.router.getShardForId(id);
 
@@ -212,5 +236,27 @@ export class ShardedDbService {
       activeShardId: this.router.getActiveShardId(),
       totalShards: this.router.getAllShards().size
     };
+  }
+
+  // Deduplication methods
+  async checkUnique(table: string, column: string, value: any, excludeId?: string): Promise<boolean> {
+    if (!this.dedup) {
+      throw new Error('Deduplication service not configured');
+    }
+    return this.dedup.checkUnique({ table, column, value, excludeId });
+  }
+
+  async findDuplicates(table: string, column: string) {
+    if (!this.dedup) {
+      throw new Error('Deduplication service not configured');
+    }
+    return this.dedup.findDuplicates(table, column);
+  }
+
+  async deduplicateTable(table: string, column: string, keepStrategy: 'first' | 'last' = 'first') {
+    if (!this.dedup) {
+      throw new Error('Deduplication service not configured');
+    }
+    return this.dedup.deduplicateTable(table, column, keepStrategy);
   }
 }
