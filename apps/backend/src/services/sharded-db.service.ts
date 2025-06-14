@@ -2,6 +2,7 @@ import { D1Database } from '@cloudflare/workers-types';
 import { UniversalIdGenerator } from '../lib/universal-id';
 import { DatabaseRouter } from '../lib/database-router';
 import { ShardDeduplicationService } from '../lib/shard-dedup';
+import { CrossShardQueryService, CrossShardQueryOptions } from './cross-shard-query.service';
 
 export interface ShardedDbConfig {
   idGenerator: UniversalIdGenerator;
@@ -15,12 +16,14 @@ export class ShardedDbService {
   private router: DatabaseRouter;
   private dedup?: ShardDeduplicationService;
   private enforceUniqueConstraints: boolean;
+  private crossShardQuery: CrossShardQueryService;
 
   constructor(config: ShardedDbConfig) {
     this.idGenerator = config.idGenerator;
     this.router = config.router;
     this.dedup = config.dedup;
     this.enforceUniqueConstraints = config.enforceUniqueConstraints ?? true;
+    this.crossShardQuery = new CrossShardQueryService(this.router, this);
   }
 
   async create<T extends Record<string, any>>(
@@ -143,9 +146,46 @@ export class ShardedDbService {
       orderBy?: string;
       limit?: number;
       offset?: number;
+      useGlobalSort?: boolean; // New option to enable global sorting
     }
   ): Promise<T[]> {
-    // For queries that span all shards
+    // Use cross-shard query orchestrator for global sorting/pagination
+    if (options?.useGlobalSort && (options.orderBy || options.limit || options.offset)) {
+      let query = `SELECT * FROM ${tableName}`;
+      const bindings: any[] = [];
+
+      // Add WHERE clause
+      if (options.where && Object.keys(options.where).length > 0) {
+        const whereConditions = Object.keys(options.where)
+          .map(key => `${key} = ?`);
+        query += ` WHERE ${whereConditions.join(' AND ')}`;
+        bindings.push(...Object.values(options.where));
+      }
+
+      // Parse orderBy to extract column and direction
+      let orderByOptions: CrossShardQueryOptions['orderBy'];
+      if (options.orderBy) {
+        const parts = options.orderBy.split(' ');
+        orderByOptions = {
+          column: parts[0],
+          direction: (parts[1]?.toUpperCase() as 'ASC' | 'DESC') || 'ASC'
+        };
+      }
+
+      const result = await this.crossShardQuery.queryAllShardsWithGlobalSort<T>(
+        query,
+        bindings,
+        {
+          orderBy: orderByOptions,
+          limit: options.limit,
+          offset: options.offset
+        }
+      );
+
+      return result.results;
+    }
+
+    // Original implementation for backward compatibility
     return this.router.queryAll(async (db) => {
       let query = `SELECT * FROM ${tableName}`;
       const bindings: any[] = [];
@@ -258,5 +298,57 @@ export class ShardedDbService {
       throw new Error('Deduplication service not configured');
     }
     return this.dedup.deduplicateTable(table, column, keepStrategy);
+  }
+
+  // Cross-shard query methods
+  async queryWithGlobalSort<T>(
+    query: string,
+    params: unknown[] = [],
+    options?: CrossShardQueryOptions
+  ) {
+    return this.crossShardQuery.queryAllShardsWithGlobalSort<T>(query, params, options);
+  }
+
+  async aggregate(
+    tableName: string,
+    options: CrossShardQueryOptions
+  ) {
+    return this.crossShardQuery.aggregateAcrossShards(tableName, options);
+  }
+
+  async joinTables<T>(
+    leftTable: string,
+    rightTable: string,
+    joinCondition: string,
+    selectColumns: string[] = ['*'],
+    where?: string,
+    params: unknown[] = []
+  ) {
+    return this.crossShardQuery.joinAcrossShards<T>(
+      leftTable,
+      rightTable,
+      joinCondition,
+      selectColumns,
+      where,
+      params
+    );
+  }
+
+  async executeDistributedTransaction(
+    operations: Array<{
+      shardId?: string;
+      query: string;
+      params: unknown[];
+    }>
+  ) {
+    return this.crossShardQuery.executeDistributedTransaction(operations);
+  }
+
+  async *streamLargeDataset<T>(
+    query: string,
+    params: unknown[] = [],
+    batchSize: number = 1000
+  ) {
+    yield* this.crossShardQuery.streamFromAllShards<T>(query, params, batchSize);
   }
 }
