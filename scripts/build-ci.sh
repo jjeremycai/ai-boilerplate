@@ -25,23 +25,27 @@ if [ ! -d "node_modules" ]; then
 fi
 
 # Build with error handling
-echo -e "${YELLOW}Building web application...${NC}"
+echo -e "${YELLOW}Building web application with Remix...${NC}"
 
-# Try to build with Vite
-if NODE_OPTIONS="--max-old-space-size=8192" npx vite build; then
+# Build with Remix
+if NODE_OPTIONS="--max-old-space-size=8192" bun run build; then
     echo -e "${GREEN}✓ Build successful${NC}"
 else
-    echo -e "${RED}✗ Build failed, trying alternative approach...${NC}"
-    
-    # Alternative: Use Bun's built-in bundler
-    echo -e "${YELLOW}Attempting build with Bun bundler...${NC}"
-    bun build ./src/main.tsx --outdir=./dist --minify --splitting --format=esm --target=browser
+    echo -e "${RED}✗ Build failed${NC}"
+    exit 1
 fi
 
-# Verify output
-if [ -d "dist" ] && [ -n "$(ls -A dist)" ]; then
+# Verify output (Remix outputs to build/ directory)
+if [ -d "build" ] && [ -n "$(ls -A build)" ]; then
     echo -e "${GREEN}✓ Build output verified${NC}"
-    ls -la dist/
+    ls -la build/
+    
+    # Create dist directory for compatibility with worker
+    echo -e "${YELLOW}Creating dist directory for worker compatibility...${NC}"
+    mkdir -p dist
+    cp -r public/* dist/ 2>/dev/null || true
+    cp -r build/client/* dist/ 2>/dev/null || true
+    
     exit 0
 else
     echo -e "${RED}✗ No build output found${NC}"
