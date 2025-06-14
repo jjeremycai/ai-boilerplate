@@ -1,40 +1,43 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-expo';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { tokenCache } from './src/lib/cache';
+import { AuthProvider, useAuth } from './src/context/AuthContext';
 import { RootNavigator } from './src/navigation/RootNavigator';
 import { AuthScreen } from './src/screens/AuthScreen';
+import { View, ActivityIndicator } from 'react-native';
 
 const queryClient = new QueryClient();
 
-// Get Clerk publishable key from environment
-const clerkPublishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
+function AppContent() {
+  const { user, isLoading } = useAuth();
 
-if (!clerkPublishableKey) {
-  throw new Error('Missing Clerk Publishable Key');
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  return (
+    <>
+      {user ? <RootNavigator /> : <AuthScreen />}
+      <StatusBar style="auto" />
+    </>
+  );
 }
 
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <ClerkProvider
-          publishableKey={clerkPublishableKey}
-          tokenCache={tokenCache}
-        >
+        <AuthProvider>
           <QueryClientProvider client={queryClient}>
-            <SignedIn>
-              <RootNavigator />
-            </SignedIn>
-            <SignedOut>
-              <AuthScreen />
-            </SignedOut>
-            <StatusBar style="auto" />
+            <AppContent />
           </QueryClientProvider>
-        </ClerkProvider>
+        </AuthProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

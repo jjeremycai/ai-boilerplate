@@ -1,19 +1,16 @@
 import { Hono } from 'hono'
-import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
+import { requireAuth } from '../middleware/workos'
 // Agent SDK not available yet - will be added when released
 import type { Env } from '../index'
 
 const aiRoutes = new Hono<{ Bindings: Env }>()
 
 // Apply authentication middleware
-aiRoutes.use('*', clerkMiddleware())
+aiRoutes.use('*', requireAuth)
 
 // Chat completion endpoint using Workers AI
 aiRoutes.post('/chat', async (c) => {
-  const auth = getAuth(c)
-  if (!auth?.userId) {
-    return c.json({ error: 'Unauthorized' }, 401)
-  }
+  const user = c.get('user')
 
   try {
     const body = await c.req.json()
@@ -58,10 +55,7 @@ aiRoutes.post('/chat', async (c) => {
 
 // Agent SDK endpoint for more complex AI workflows
 aiRoutes.post('/agent', async (c) => {
-  const auth = getAuth(c)
-  if (!auth?.userId) {
-    return c.json({ error: 'Unauthorized' }, 401)
-  }
+  const user = c.get('user')
 
   try {
     const body = await c.req.json()
@@ -84,7 +78,7 @@ aiRoutes.post('/agent', async (c) => {
       metadata: {
         model: '@cf/meta/llama-3.1-8b-instruct',
         timestamp: new Date().toISOString(),
-        userId: auth.userId
+        userId: user.id
       }
     })
   } catch (error) {
@@ -98,10 +92,7 @@ aiRoutes.post('/agent', async (c) => {
 
 // Text generation endpoint
 aiRoutes.post('/generate', async (c) => {
-  const auth = getAuth(c)
-  if (!auth?.userId) {
-    return c.json({ error: 'Unauthorized' }, 401)
-  }
+  const user = c.get('user')
 
   try {
     const body = await c.req.json()
@@ -131,7 +122,7 @@ aiRoutes.post('/generate', async (c) => {
         max_tokens,
         temperature,
         timestamp: new Date().toISOString(),
-        userId: auth.userId
+        userId: user.id
       }
     })
   } catch (error) {
@@ -145,10 +136,7 @@ aiRoutes.post('/generate', async (c) => {
 
 // Image generation endpoint
 aiRoutes.post('/image', async (c) => {
-  const auth = getAuth(c)
-  if (!auth?.userId) {
-    return c.json({ error: 'Unauthorized' }, 401)
-  }
+  const user = c.get('user')
 
   try {
     const body = await c.req.json()
@@ -166,7 +154,7 @@ aiRoutes.post('/image', async (c) => {
         model,
         prompt,
         timestamp: new Date().toISOString(),
-        userId: auth.userId
+        userId: user.id
       }
     })
   } catch (error) {
@@ -180,10 +168,7 @@ aiRoutes.post('/image', async (c) => {
 
 // List available models
 aiRoutes.get('/models', async (c) => {
-  const auth = getAuth(c)
-  if (!auth?.userId) {
-    return c.json({ error: 'Unauthorized' }, 401)
-  }
+  const user = c.get('user')
 
   // Common Cloudflare Workers AI models
   const models = {

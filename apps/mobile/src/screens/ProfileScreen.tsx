@@ -1,11 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { useAuth, useUser } from '@clerk/clerk-expo';
+import { useAuth } from '../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 
 export function ProfileScreen() {
-  const { signOut } = useAuth();
-  const { user } = useUser();
+  const { signOut, user } = useAuth();
 
   const handleSignOut = () => {
     Alert.alert(
@@ -27,7 +26,7 @@ export function ProfileScreen() {
         <Text style={styles.name}>
           {user?.firstName} {user?.lastName}
         </Text>
-        <Text style={styles.email}>{user?.primaryEmailAddress?.emailAddress}</Text>
+        <Text style={styles.email}>{user?.email}</Text>
       </View>
 
       <View style={styles.menuSection}>

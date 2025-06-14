@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { clerkMiddleware } from '../middleware/clerk'
+import { workosMiddleware } from '../middleware/workos'
 import type { Env } from '../index'
 import { projectRoutes } from './projects'
 import { taskRoutes } from './tasks'
@@ -13,13 +13,13 @@ import { shardRoutes } from './shards'
 
 export const apiRoutes = new Hono<{ Bindings: Env }>()
 
-// Apply Clerk middleware to protected routes only
+// Apply WorkOS middleware to protected routes only
 apiRoutes.use('*', async (c, next) => {
   // Blog routes are public for SEO
   if (c.req.path.includes('/blog')) {
     return next()
   }
-  return clerkMiddleware(c, next)
+  return workosMiddleware(c, next)
 })
 
 // Mount route groups

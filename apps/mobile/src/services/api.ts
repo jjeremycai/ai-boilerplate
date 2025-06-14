@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '@clerk/clerk-expo';
+import { useAuth } from '../context/AuthContext';
 import type { 
   Project, 
   Task, 

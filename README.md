@@ -26,7 +26,7 @@ npm install
 The app needs:
 - KV namespace for blog posts
 - D1 database for items
-- Clerk keys for authentication
+- WorkOS keys for authentication
 
 Without these, features will show errors. Full setup takes ~10 minutes.
 
@@ -37,7 +37,7 @@ This full-stack boilerplate includes everything you need for production:
 ### Core Features
 - ✅ **API Backend** - Cloudflare Workers with Hono framework
 - ✅ **Database** - D1 (SQLite) with automatic volume-based sharding
-- ✅ **Authentication** - Clerk for web & mobile auth
+- ✅ **Authentication** - WorkOS AuthKit for web & mobile auth
 - ✅ **Real-time** - WebSockets via Durable Objects
 - ✅ **Storage** - KV for fast key-value storage
 - ✅ **AI Integration** - Workers AI for text, chat, and image generation
@@ -81,12 +81,12 @@ npm run generate:migration # Create DB migrations
 ## 🛠 Tech Stack
 
 **Frontend**
-- **Web**: React 19 + TypeScript + Vite (NO Next.js by design)
+- **Web**: Remix + React + TypeScript + Vite + Radix UI
 - **Mobile**: Expo + React Native + TypeScript
 - Tailwind CSS v3 (minimal design, no external component libraries)
 - Single Dashboard page with integrated tabs
 - React Native styling (mobile)
-- Clerk authentication across platforms
+- WorkOS AuthKit authentication across platforms
 
 **Backend**
 - Cloudflare Workers + Hono framework

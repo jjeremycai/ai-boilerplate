@@ -2,15 +2,16 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 import { serveStatic } from 'hono/cloudflare-workers'
-import { clerkMiddleware } from './middleware/clerk'
+import { workosMiddleware } from './middleware/workos'
 import { errorHandler } from './middleware/error'
 import { apiRoutes } from './routes'
 
 export interface Env {
   DB: D1Database
   KV: KVNamespace
-  CLERK_SECRET_KEY: string
-  CLERK_PUBLISHABLE_KEY: string
+  WORKOS_API_KEY: string
+  WORKOS_CLIENT_ID: string
+  WORKOS_REDIRECT_URI: string
   STRIPE_SECRET_KEY: string
   STRIPE_WEBHOOK_SECRET: string
   STRIPE_PUBLISHABLE_KEY: string
@@ -47,7 +48,7 @@ app.get('/health', async (c) => {
   const checks = {
     db: false,
     kv: false,
-    clerk: !!c.env.CLERK_SECRET_KEY,
+    workos: !!c.env.WORKOS_API_KEY,
     durableObjects: !!(c.env.CHAT_ROOMS && c.env.USER_SESSIONS),
   };
 

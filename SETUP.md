@@ -54,24 +54,27 @@ database_id = "YOUR_ACTUAL_D1_ID_HERE"  # From step 2
 
 ## 4. Set Up Authentication
 
-### Get Clerk Keys
-1. Sign up at https://clerk.dev
-2. Create a new application
-3. Copy your keys from the dashboard
+### Get WorkOS Keys
+1. Sign up at https://workos.com
+2. Create a new organization
+3. Navigate to Authentication > Configure
+4. Copy your Client ID and API Key
 
 ### Add to .env (local development)
 ```bash
 cp .env.example .env
 # Edit .env and add:
-VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
+VITE_WORKOS_CLIENT_ID=client_...
+VITE_WORKOS_REDIRECT_URI=http://localhost:5173/auth/callback
 ```
 
 ### Add to .dev.vars (worker development)
 ```bash
 cp .dev.vars.example .dev.vars
 # Edit .dev.vars and add:
-CLERK_SECRET_KEY=sk_test_...
-CLERK_PUBLISHABLE_KEY=pk_test_...
+WORKOS_API_KEY=sk_...
+WORKOS_CLIENT_ID=client_...
+WORKOS_REDIRECT_URI=http://localhost:5173/auth/callback
 ```
 
 ### Add to GitHub Secrets (deployment)
