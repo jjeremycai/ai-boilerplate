@@ -71,12 +71,29 @@ const product = await ai.generateStructured({
 ```
 
 ### 🔐 Authentication
-Supabase Auth integrated across all platforms:
+Better Auth - A lightweight, type-safe authentication library:
 - Social login (Google, GitHub, Apple)
-- Magic links
-- JWT verification at the edge
+- Email/password authentication
+- Magic links via Resend
 - Session management
 - Protected routes
+- Built for edge environments
+
+### 💳 Payments & Billing
+Stripe integration for monetization:
+- Subscription management
+- One-time payments
+- Usage-based billing
+- Webhook handling
+- Customer portal
+
+### 📧 Email Infrastructure
+Resend for transactional emails:
+- Authentication emails
+- Password resets
+- Welcome emails
+- Custom templates
+- Email analytics
 
 ### ⚡ Performance Optimizations
 - **Million.js**: Automatic React optimization
@@ -90,7 +107,9 @@ Supabase Auth integrated across all platforms:
 - **Styling**: Tailwind CSS, NativeWind v4, Catalyst UI
 - **Backend**: Cloudflare Workers, tRPC, Hono
 - **Database**: Cloudflare D1 with Drizzle ORM
-- **Auth**: Supabase Auth
+- **Auth**: Better Auth
+- **Email**: Resend
+- **Payments**: Stripe
 - **AI**: Vercel AI SDK
 - **Build**: Turborepo, Bun, Biome
 
@@ -101,7 +120,8 @@ Supabase Auth integrated across all platforms:
 - [Bun](https://bun.sh) (latest version)
 - Node.js 18+
 - Cloudflare account
-- Supabase account (for auth)
+- Resend account (for emails)
+- Stripe account (optional, for payments)
 
 ### Quick Start
 
@@ -317,6 +337,7 @@ Cai Stack takes a modular, Tailwind-first approach to universal app development.
 
 Special thanks to:
 - [T4 Stack](https://t4stack.com) by [Tim Miller](https://twitter.com/ogtimothymiller) - For inspiration and showing what's possible with universal apps
+- [Better Auth](https://better-auth.com) - For the lightweight, edge-ready auth solution
 - [Tailwind Labs](https://tailwindcss.com) - For Tailwind CSS and Catalyst UI Kit
 - [Cloudflare](https://cloudflare.com) - For the amazing edge platform
 - [Expo](https://expo.dev) - For making React Native development a joy
