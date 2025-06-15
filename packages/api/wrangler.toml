@@ -1,0 +1,48 @@
+name = "t4-api"
+compatibility_date = "2024-12-18"
+send_metrics = false
+node_compat = true
+main = "src/worker.ts"
+account_id = "719e3374c9fabba87860b809acb3c939"
+
+# Primary database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "production"
+database_id = "aa5e3923-0f1b-469a-8bb8-d10fb866efe0"
+migrations_dir = "migrations"
+
+# Sharded database bindings
+# Pattern: DB_VOL_<index>_<hash>
+[[d1_databases]]
+binding = "DB_VOL_001_abc123"
+database_name = "production_shard_001"
+database_id = "YOUR_SHARD_001_ID"
+
+[[d1_databases]]
+binding = "DB_VOL_002_def456"
+database_name = "production_shard_002"
+database_id = "YOUR_SHARD_002_ID"
+
+# Add more shards as needed
+# [[d1_databases]]
+# binding = "DB_VOL_003_ghi789"
+# database_name = "production_shard_003"
+# database_id = "YOUR_SHARD_003_ID"
+
+# The necessary secrets are:
+# - APP_URL - for preventing CORS errors
+# - JWT_VERIFICATION_KEY - for Supabase @link https://supabase.com
+# - OPENROUTER_API_KEY - for OpenRouter AI integration
+# - SUPABASE_URL - Supabase project URL
+# - SUPABASE_ANON_KEY - Supabase anonymous key
+# - SUPABASE_SERVICE_ROLE_KEY - Supabase service role key
+#
+# For local development, you can create a file called .dev.vars and use dotenv syntax.
+#
+# For deployed environments, you can use wrangler secrets to set these values.
+# For example:
+# Run `echo <VALUE> | wrangler secret put <NAME>` for each of these
+# Or use the Cloudflare web interface.
+# @link https://developers.cloudflare.com/workers/platform/environment-variables/#environment-variables-via-the-dashboard
+#

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalEnv": [
+    "NODE_ENV",
+    "NEXT_PUBLIC_*",
+    "EXPO_PUBLIC_*",
+    "VITE_*",
+    "TAURI_*"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**",
+        "build/**",
+        ".expo/**",
+        "src-tauri/target/**"
+      ]
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true,
+      "dotEnv": [".env.local", ".env"]
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "biome.json", ".eslintrc*", ".prettierrc*"]
+    },
+    "format": {
+      "outputs": [],
+      "cache": false
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "generate": {
+      "cache": false,
+      "outputs": ["migrations/**"]
+    },
+    "migrate": {
+      "cache": false,
+      "dependsOn": ["generate"]
+    },
+    "migrate:local": {
+      "cache": false,
+      "dependsOn": ["generate"]
+    },
+    "seed": {
+      "cache": false,
+      "dependsOn": ["migrate"]
+    },
+    "seed:local": {
+      "cache": false,
+      "dependsOn": ["migrate:local"]
+    },
+    "studio": {
+      "cache": false,
+      "persistent": true
+    },
+    "clean": {
+      "cache": false
+    },
+    "tauri": {
+      "cache": false,
+      "inputs": ["$TURBO_DEFAULT$", "src-tauri/**"]
+    }
+  }
+}

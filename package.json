@@ -1,0 +1,43 @@
+{
+  "name": "t4-app-monorepo",
+  "private": true,
+  "license": "MIT",
+  "version": "3.0.0",
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:web": "turbo dev --filter=@t4/web...",
+    "dev:desktop": "turbo dev --filter=@t4/desktop...",
+    "dev:mobile": "turbo dev --filter=@t4/expo...",
+    "build": "turbo build",
+    "build:web": "turbo build --filter=@t4/web...",
+    "build:desktop": "turbo build --filter=@t4/desktop...",
+    "build:mobile": "turbo build --filter=@t4/expo...",
+    "lint": "turbo lint",
+    "format": "turbo format",
+    "typecheck": "turbo typecheck",
+    "clean": "turbo clean && rm -rf node_modules .turbo",
+    "generate": "turbo generate",
+    "migrate:local": "turbo migrate:local",
+    "seed:local": "turbo seed:local",
+    "migrate": "turbo migrate",
+    "seed": "turbo seed",
+    "studio": "turbo studio",
+    "check-deps": "check-dependency-version-consistency .",
+    "deps:fix": "manypkg fix",
+    "deps:update": "bun x npm-check-updates -ui -ws",
+    "postinstall": "bun ./.github/scripts/env.ts && bun check-deps"
+  },
+  "workspaces": ["apps/*", "packages/*"],
+  "dependencies": {
+    "@babel/runtime": "^7.26.0",
+    "@biomejs/biome": "^1.9.4",
+    "@manypkg/cli": "^0.21.4",
+    "@supabase/supabase-js": "^2.47.12",
+    "check-dependency-version-consistency": "^4.1.0",
+    "npm-run-all": "^4.1.5",
+    "react-native-url-polyfill": "^2.0.0",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2",
+    "workerd": "^1.20241218.0"
+  }
+}
