@@ -4,8 +4,8 @@
     "noUncheckedIndexedAccess": true,
     "paths": {
       "app/*": ["./packages/app/*"],
-      "@t4/api/*": ["./packages/api/*"],
-      "@t4/ui-tw/*": ["./packages/ui-tw/*"]
+      "@cai/api/*": ["./packages/api/*"],
+      "@cai/ui-tw/*": ["./packages/ui-tw/*"]
     },
     "plugins": []
   },

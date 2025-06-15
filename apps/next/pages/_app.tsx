@@ -10,7 +10,7 @@ import type { SolitoAppProps } from 'solito'
 const title = `${process.env.NEXT_PUBLIC_METADATA_NAME}`
 const description = `${process.env.NEXT_PUBLIC_METADATA_DESCRIPTION}`
 
-const T4App = ({ Component, pageProps }: SolitoAppProps<{ initialSession: Session | null }>) => {
+const CaiApp = ({ Component, pageProps }: SolitoAppProps<{ initialSession: Session | null }>) => {
   return (
     <>
       <Metadata />
@@ -21,7 +21,7 @@ const T4App = ({ Component, pageProps }: SolitoAppProps<{ initialSession: Sessio
   )
 }
 
-export default trpc.withTRPC(T4App)
+export default trpc.withTRPC(CaiApp)
 
 const Metadata = () => (
   <Head>

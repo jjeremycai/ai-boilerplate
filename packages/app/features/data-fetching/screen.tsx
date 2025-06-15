@@ -1,4 +1,4 @@
-import { H1, H2, Paragraph, YStack } from '@t4/ui'
+import { H1, H2, Paragraph, YStack } from '@cai/ui'
 import { trpc } from 'app/utils/trpc'
 import React from 'react'
 import { match } from 'ts-pattern'

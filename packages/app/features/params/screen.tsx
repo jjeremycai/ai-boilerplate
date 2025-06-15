@@ -1,4 +1,4 @@
-import { Button, Container, Text } from '@t4/ui-tw'
+import { Button, Container, Text } from '@cai/ui-tw'
 import { createParam } from 'solito'
 import { useLink } from 'solito/link'
 import { View } from 'react-native'

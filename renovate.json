@@ -3,7 +3,7 @@
     "extends": ["config:base"],
     "packageRules": [
       {
-        "matchPackagePatterns": ["^@t4/"],
+        "matchPackagePatterns": ["^@cai/"],
         "enabled": false
       }
     ],

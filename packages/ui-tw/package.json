@@ -1,5 +1,5 @@
 {
-  "name": "@t4/ui-tw",
+  "name": "@cai/ui-tw",
   "version": "1.0.0",
   "main": "src/index.tsx",
   "types": "src/index.tsx",

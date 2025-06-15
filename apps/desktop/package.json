@@ -1,5 +1,5 @@
 {
-  "name": "@t4/desktop",
+  "name": "@cai/desktop",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -14,7 +14,7 @@
     "format": "echo 'No formatting for desktop'"
   },
   "dependencies": {
-    "@t4/ui-tw": "workspace:*",
+    "@cai/ui-tw": "workspace:*",
     "@tauri-apps/api": "^2.1.1",
     "@tauri-apps/plugin-shell": "^2.0.1",
     "react": "^18.3.1",

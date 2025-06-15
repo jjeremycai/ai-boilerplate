@@ -1,8 +1,8 @@
 import { useState } from 'react'
 // Import universal components - they work in Tauri!
-import { Button, Container, Text, Input, Card } from '@t4/ui-tw'
+import { Button, Container, Text, Input, Card } from '@cai/ui-tw'
 // Import Catalyst components - they also work in Tauri!
-import { Catalyst } from '@t4/ui-tw'
+import { Catalyst } from '@cai/ui-tw'
 // Tauri specific imports
 import { invoke } from '@tauri-apps/api/tauri'
 
@@ -21,7 +21,7 @@ function App() {
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Using universal Text component */}
         <Text variant="h1" className="text-center">
-          T4 Desktop App with Tauri 2.0
+          Cai Stack Desktop App with Tauri 2.0
         </Text>
 
         {/* Using universal Card component */}

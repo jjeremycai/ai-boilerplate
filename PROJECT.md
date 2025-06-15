@@ -1,268 +1,186 @@
-# T4 Boilerplate Project Documentation
+# Cai Stack Project Documentation
 
-## Project Overview
+## Overview
 
-This is a modern full-stack TypeScript boilerplate built on the T4 Stack (Tauri, tRPC, Tailwind, TypeScript) with significant architectural enhancements:
-
-- **Tailwind + NativeWind** instead of Tamagui for universal styling
-- **Cloudflare D1 Sharding** for handling database size limitations
-- **OpenRouter AI Integration** for LLM capabilities
-- **Supabase Authentication** for secure user management
+The Cai Stack is a modern, production-ready boilerplate for building full-stack applications that run everywhere - web, mobile, and desktop. Built with performance and developer experience in mind.
 
 ## Architecture
 
-### Tech Stack
+### Frontend
+- **Next.js**: Server-side rendering and static generation for web
+- **Expo**: React Native framework for iOS and Android
+- **Vite + Tauri**: Fast desktop applications
+- **Tailwind CSS + NativeWind**: Universal styling across platforms
 
-#### Frontend
-- **Next.js 15** - React framework for web
-- **Expo SDK 51** - React Native for mobile
-- **Tailwind CSS + NativeWind v4** - Universal styling solution
-- **Solito** - Universal navigation
-- **Jotai** - State management
-- **Million.js** - React optimization
-- **PattyCake** - Pattern matching
+### Backend
+- **Cloudflare Workers**: Edge computing for global performance
+- **tRPC**: End-to-end type-safe APIs
+- **Drizzle ORM**: Type-safe database queries
+- **Cloudflare D1**: SQLite at the edge with automatic sharding
 
-#### Backend
-- **Cloudflare Workers** - Edge computing
-- **Hono** - Lightweight web framework
-- **tRPC v11** - Type-safe APIs
-- **Drizzle ORM** - TypeScript-first ORM
-- **Cloudflare D1** - SQLite at the edge
-- **Valibot** - Schema validation
+### Infrastructure
+- **Turborepo**: Efficient monorepo builds
+- **Bun**: Fast JavaScript runtime and package manager
+- **TypeScript**: Full type safety across the stack
+- **Biome**: Fast formatting and linting
 
-#### Infrastructure
-- **Bun** - JavaScript runtime and package manager
-- **Turborepo** - Monorepo build system
-- **TypeScript 5.7** - Type safety
-- **Biome** - Fast formatter and linter
+## Key Features
 
-### Key Features
+### Database Sharding
+Automatic volume-based sharding handles Cloudflare D1's 10GB limit:
+- Universal ID generation with embedded shard information
+- Transparent query routing
+- Cross-shard aggregation
+- Zero-downtime migrations
 
-1. **Database Sharding System**
-   - Automatic volume-based sharding for D1's 10GB limit
-   - Universal ID generation with shard information
-   - Cross-shard query orchestration
-   - Transparent migration support
+### Universal Components
+Write once, run everywhere:
+- Shared UI components work on web, iOS, Android, and desktop
+- Platform-specific optimizations when needed
+- Consistent design system with Catalyst UI
 
-2. **Universal UI Components**
-   - Shared components work on both web and native
-   - Consistent styling with Tailwind utilities
-   - Type-safe component props
-   - Platform-specific optimizations
+### AI Integration
+Built-in Vercel AI SDK support:
+- Multiple provider support (OpenAI, Anthropic, etc.)
+- Streaming responses
+- Structured output with schemas
+- Token usage tracking
 
-3. **AI Integration**
-   - OpenRouter service for multiple LLM providers
-   - Streaming support
-   - Token usage tracking
-   - Error handling and retries
-
-4. **Authentication**
-   - Supabase Auth integration
-   - JWT verification on edge
-   - Protected routes
-   - Session management
+### Authentication
+Supabase Auth integration:
+- JWT verification at the edge
+- Protected API routes
+- Session management
+- Social login support
 
 ## Project Structure
 
 ```
-t4-boilerplate/
+cai-stack/
 ├── apps/
-│   ├── next/                 # Next.js web application
-│   │   ├── pages/           # Page routes
-│   │   ├── public/          # Static assets
-│   │   └── styles/          # Global styles
-│   │
-│   └── expo/                # Expo native application
-│       ├── app/             # App routes
-│       └── assets/          # Native assets
-│
+│   ├── next/          # Next.js web application
+│   ├── expo/          # React Native mobile app
+│   └── desktop/       # Tauri desktop application
 ├── packages/
-│   ├── api/                 # Backend API
-│   │   ├── src/
-│   │   │   ├── db/         # Database schemas
-│   │   │   ├── lib/        # Core libraries
-│   │   │   │   └── sharding/  # D1 sharding system
-│   │   │   ├── routers/    # tRPC routers
-│   │   │   ├── services/   # Business logic
-│   │   │   └── worker.ts   # Cloudflare Worker entry
-│   │   ├── migrations/     # Database migrations
-│   │   └── wrangler.toml   # Cloudflare config
-│   │
-│   ├── app/                 # Shared application code
-│   │   ├── features/       # Feature modules
-│   │   ├── provider/       # App providers
-│   │   └── utils/          # Shared utilities
-│   │
-│   └── ui-tw/              # UI component library
-│       └── src/
-│           ├── components/ # Reusable components
-│           └── lib/        # UI utilities
-│
-└── tooling/                # Build tools and configs
-    ├── typescript/         # TypeScript configs
-    └── github/            # GitHub Actions
+│   ├── api/           # tRPC API & Workers
+│   ├── app/           # Shared app logic
+│   └── ui-tw/         # UI component library
+└── turbo.json         # Turborepo configuration
 ```
 
-## Development Workflow
+## Development Guide
 
-### Getting Started
+### Prerequisites
+- Bun (latest)
+- Node.js 18+
+- Cloudflare account
+- Supabase account
 
-1. **Clone and Install**
-   ```bash
-   git clone <repository>
-   cd t4-boilerplate
-   bun install
-   ```
+### Quick Start
 
-2. **Environment Setup**
-   ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your credentials
-   ```
+```bash
+# Install dependencies
+bun install
 
-3. **Database Setup**
-   ```bash
-   # Generate migrations
-   bun --filter @t4/api generate
-   
-   # Apply locally
-   bun --filter @t4/api migrate:local
-   ```
+# Set up environment
+cp .env.example .env.local
 
-4. **Start Development**
-   ```bash
-   bun dev
-   ```
+# Start development
+bun dev
+```
 
-### Available Scripts
+### Common Tasks
 
-- `bun dev` - Start all development servers
-- `bun build` - Build all packages
-- `bun lint` - Run linting
-- `bun typecheck` - Type checking
-- `bun test` - Run tests
-
-### Adding Features
-
-1. **New UI Component**
-   - Create in `packages/ui-tw/src/components/`
-   - Use Tailwind classes with NativeWind
-   - Export from package index
-   - Add TypeScript types
-
-2. **New API Route**
-   - Add router in `packages/api/src/routers/`
-   - Update root router
-   - Add service logic if needed
-   - Generate TypeScript types
-
-3. **New Database Table**
-   - Define schema in `packages/api/src/db/schema.ts`
-   - Run `bun --filter @t4/api generate`
-   - Apply migrations
-
-## Database Sharding
-
-### How It Works
-
-1. **Shard Detection**
-   - Scans environment for `DB_VOL_*` databases
-   - Initializes shard metadata
-   - Sets up routing table
-
-2. **ID Generation**
-   - Timestamp (41 bits)
-   - Shard ID (10 bits)  
-   - Sequence (12 bits)
-   - Machine ID (1 bit)
-
-3. **Query Routing**
-   - Extracts shard from ID
-   - Routes to correct database
-   - Handles cross-shard queries
-
-### Usage Example
-
+**Add a new API endpoint:**
 ```typescript
-// Single shard query
-const user = await dbRouter.executeOnShard(userId, async (db) => {
-  return db.select().from(users).where(eq(users.id, userId)).get()
+// packages/api/src/routes/example.ts
+export const exampleRouter = router({
+  hello: publicProcedure
+    .input(z.object({ name: z.string() }))
+    .query(({ input }) => `Hello ${input.name}`)
 })
+```
 
-// Cross-shard query
-const allUsers = await dbRouter.executeAcrossShards(async (db) => {
-  return db.select().from(users).all()
+**Create a universal component:**
+```tsx
+// packages/ui-tw/src/components/Card.tsx
+export function Card({ children, className }) {
+  return (
+    <View className={cn("p-4 bg-white rounded-lg shadow", className)}>
+      {children}
+    </View>
+  )
+}
+```
+
+**Add a new database table:**
+```typescript
+// packages/api/src/db/schema.ts
+export const posts = sqliteTable('posts', {
+  id: text('id').primaryKey(),
+  title: text('title').notNull(),
+  content: text('content'),
+  authorId: text('author_id').references(() => users.id),
+  createdAt: integer('created_at').default(sql`CURRENT_TIMESTAMP`)
 })
 ```
 
 ## Deployment
 
-### Cloudflare Workers (API)
+### API (Cloudflare Workers)
+```bash
+cd packages/api
+bun run deploy
+```
 
-1. Configure `wrangler.toml` with D1 databases
-2. Set secrets: `wrangler secret put <KEY>`
-3. Deploy: `bun --filter @t4/api deploy`
+### Web (Cloudflare Pages)
+```bash
+cd apps/next
+bun run deploy
+```
 
-### Vercel (Next.js)
+### Mobile (EAS Build)
+```bash
+cd apps/expo
+eas build --platform all
+```
 
-1. Connect GitHub repository
-2. Set environment variables
-3. Deploy: `bunx vercel --cwd apps/next`
-
-### Expo (Mobile)
-
-1. Configure EAS Build
-2. Set up app credentials
-3. Build: `eas build --platform ios/android`
+### Desktop (Tauri)
+```bash
+cd apps/desktop
+bun run build
+```
 
 ## Best Practices
 
-1. **Type Safety**
-   - Use TypeScript strictly
-   - Leverage tRPC for API types
-   - Validate with Valibot schemas
-
-2. **Performance**
-   - Use Million.js optimization
-   - Implement code splitting
-   - Optimize images with Solito
-
-3. **Styling**
-   - Use Tailwind utilities
-   - Create reusable components
-   - Maintain consistency
-
-4. **Database**
-   - Design for sharding
-   - Use efficient queries
-   - Index appropriately
+1. **Type Safety**: Always define types for API inputs/outputs
+2. **Component Reuse**: Build universal components when possible
+3. **Performance**: Use React.memo and useMemo appropriately
+4. **Error Handling**: Implement proper error boundaries
+5. **Testing**: Write tests for critical business logic
 
 ## Troubleshooting
 
-### Common Issues
+**Module not found errors:**
+- Clear node_modules and reinstall: `rm -rf node_modules && bun install`
+- Check import paths match package names
 
-1. **Module Resolution**
-   - Ensure correct import paths
-   - Use `@t4/ui-tw` not `@t4/ui`
-   - Check tsconfig paths
+**Database connection issues:**
+- Verify D1 database names in wrangler.toml
+- Ensure environment variables are set correctly
 
-2. **Database Errors**
-   - Verify D1 bindings in wrangler.toml
-   - Check shard configuration
-   - Ensure migrations are applied
+**Build failures:**
+- Run `bun clean` to clear build caches
+- Check for TypeScript errors: `bun typecheck`
 
-3. **Build Failures**
-   - Clear caches: `bun clean`
-   - Reinstall deps: `bun install`
-   - Check Node/Bun versions
+## Contributing
 
-## Future Enhancements
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
 
-- [ ] Add comprehensive test suite
-- [ ] Implement dark mode
-- [ ] Add i18n support
-- [ ] Create component documentation
-- [ ] Add monitoring and analytics
-- [ ] Implement caching strategies
-- [ ] Add WebSocket support
-- [ ] Create admin dashboard
+## License
+
+MIT

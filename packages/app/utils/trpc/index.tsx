@@ -1,4 +1,4 @@
-import type { AppRouter } from '@t4/api/src/router'
+import type { AppRouter } from '@cai/api/src/router'
 import { createTRPCReact } from '@trpc/react-query'
 
 /**

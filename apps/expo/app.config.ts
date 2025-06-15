@@ -14,10 +14,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     typedRoutes: true,
   },
   platforms: ['ios', 'android'],
-  name: 'T4 App',
-  slug: 't4-app',
+  name: 'Cai App',
+  slug: 'cai-app',
   updates: {
-    url: 'https://u.expo.dev/85fc6ccd-0ce1-4e4d-804c-b15df989f97e',
+    enabled: false,
   },
   runtimeVersion: {
     policy: 'sdkVersion',

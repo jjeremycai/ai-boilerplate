@@ -1,6 +1,6 @@
 import type { Provider } from '@supabase/supabase-js'
-import { YStack, useToastController } from '@t4/ui'
-import { capitalizeWord } from '@t4/ui/src/libs/string'
+import { YStack, useToastController } from '@cai/ui'
+import { capitalizeWord } from '@cai/ui/src/libs/string'
 import { SignUpSignInComponent } from 'app/features/sign-in/SignUpSignIn'
 import { useSupabase } from 'app/utils/supabase/hooks/useSupabase'
 import { useRouter } from 'solito/router'

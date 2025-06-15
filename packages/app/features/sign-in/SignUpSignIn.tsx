@@ -1,5 +1,5 @@
 import { type Provider } from '@supabase/supabase-js'
-import { Button, Input, Paragraph, Stack, XStack, YStack } from '@t4/ui'
+import { Button, Input, Paragraph, Stack, XStack, YStack } from '@cai/ui'
 import { useState } from 'react'
 import { SolitoImage } from 'solito/image'
 import { Link } from 'solito/link'

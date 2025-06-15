@@ -1,5 +1,5 @@
-import { Button as UniversalButton, Container, Text } from '@t4/ui-tw'
-import { Catalyst } from '@t4/ui-tw'
+import { Button as UniversalButton, Container, Text } from '@cai/ui-tw'
+import { Catalyst } from '@cai/ui-tw'
 import { useState } from 'react'
 
 export default function HybridExample() {

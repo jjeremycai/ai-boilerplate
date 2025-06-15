@@ -23,7 +23,7 @@ Since Catalyst components are web-only (using Headless UI and DOM events), we've
 
 ```tsx
 // Import native versions
-import { Button, Badge, Alert } from '@t4/ui-tw/catalyst-native'
+import { Button, Badge, Alert } from '@cai/ui-tw/catalyst-native'
 
 // Use with same styling as Catalyst
 <Button color="blue">Native Button</Button>

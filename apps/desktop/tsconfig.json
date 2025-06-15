@@ -23,8 +23,8 @@
     /* Path mapping */
     "baseUrl": ".",
     "paths": {
-      "@t4/ui-tw": ["../../packages/ui-tw/src"],
-      "@t4/ui-tw/*": ["../../packages/ui-tw/src/*"]
+      "@cai/ui-tw": ["../../packages/ui-tw/src"],
+      "@cai/ui-tw/*": ["../../packages/ui-tw/src/*"]
     }
   },
   "include": ["src"],

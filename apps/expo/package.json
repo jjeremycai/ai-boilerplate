@@ -1,5 +1,5 @@
 {
-  "name": "@t4/expo",
+  "name": "@cai/expo",
   "version": "2.0.0",
   "main": "index.js",
   "private": true,
@@ -21,7 +21,7 @@
   "dependencies": {
     "@babel/runtime": "^7.26.0",
     "@shopify/flash-list": "^1.8.2",
-    "@t4/ui-tw": "workspace:*",
+    "@cai/ui-tw": "workspace:*",
     "app": "workspace:*",
     "babel-plugin-module-resolver": "^5.0.2",
     "burnt": "^0.12.2",

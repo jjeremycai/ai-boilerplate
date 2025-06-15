@@ -1,6 +1,6 @@
 import { trpcServer } from '@hono/trpc-server'
-import { createContext } from '@t4/api/src/context'
-import { appRouter } from '@t4/api/src/router'
+import { createContext } from '@cai/api/src/context'
+import { appRouter } from '@cai/api/src/router'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 

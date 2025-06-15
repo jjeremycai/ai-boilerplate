@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "t4-app",
-    "slug": "t4-app",
-    "scheme": "t4",
+    "name": "cai-app",
+    "slug": "cai-app",
+    "scheme": "cai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,21 +17,21 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.t4.app"
+      "bundleIdentifier": "com.caistack.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.t4.app"
+      "package": "com.caistack.app"
     },
     "extra": {
       "eas": {
-        "projectId": "85fc6ccd-0ce1-4e4d-804c-b15df989f97e"
+        "projectId": "your-project-id"
       }
     },
-    "owner": "timothymiller",
+    "owner": "caistack",
     "plugins": ["expo-router"],
     "experiments": {
       "tsconfigPaths": true,

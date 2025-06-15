@@ -1,4 +1,4 @@
-import { Button, Container, Text } from '@t4/ui-tw'
+import { Button, Container, Text } from '@cai/ui-tw'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { SolitoImage } from 'solito/image'
@@ -17,7 +17,7 @@ export default function Page() {
       </Head>
       <Container className="flex-1 justify-center items-center p-4">
         <View className="items-center space-y-4">
-          <SolitoImage src='/t4-logo.png' width={96} height={96} alt='T4 Logo' />
+          <SolitoImage src='/cai-logo.png' width={96} height={96} alt='Cai Logo' />
           <Text variant="h1">Page not found</Text>
           <Text className="max-w-[500px] text-center">
             Your changes were saved, but we could not load the page you requested because it was not

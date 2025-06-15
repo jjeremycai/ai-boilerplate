@@ -1,5 +1,5 @@
-import { YStack, useToastController } from '@t4/ui'
-import { PasswordResetComponent } from '@t4/ui/src/PasswordReset'
+import { YStack, useToastController } from '@cai/ui'
+import { PasswordResetComponent } from '@cai/ui/src/PasswordReset'
 import { useSupabase } from 'app/utils/supabase/hooks/useSupabase'
 import { useRouter } from 'solito/router'
 

@@ -1,4 +1,4 @@
-import type { AppRouter } from '@t4/api/src/router'
+import type { AppRouter } from '@cai/api/src/router'
 import { httpBatchLink, loggerLink } from '@trpc/client'
 import { createTRPCNext } from '@trpc/next'
 import superjson from 'superjson'

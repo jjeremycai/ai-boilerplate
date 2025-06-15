@@ -1,4 +1,4 @@
-import { Button, Container, ScrollView, Text } from '@t4/ui-tw'
+import { Button, Container, ScrollView, Text } from '@cai/ui-tw'
 import { useSupabase } from 'app/utils/supabase/hooks/useSupabase'
 import { useUser } from 'app/utils/supabase/hooks/useUser'
 import { trpc } from 'app/utils/trpc'
@@ -36,10 +36,10 @@ export function HomeScreen() {
     <ScrollView>
       <Container className="flex-1 justify-center items-center py-8">
         <View className="items-center space-y-6">
-          <SolitoImage src="/t4-logo.png" width={128} height={128} alt="T4 Logo" />
+          <SolitoImage src="/cai-logo.png" width={128} height={128} alt="Cai Stack Logo" />
           
           <Text variant="h1" className="text-center">
-            👋 Hello, T4 App
+            Welcome to Cai Stack
           </Text>
           
           <View className="w-full h-px bg-gray-200 my-4" />
@@ -49,20 +49,7 @@ export function HomeScreen() {
           </Text>
           
           <Text className="text-center text-gray-600">
-            The T4 Stack is made by{' '}
-            <Text 
-              className="text-primary-500 underline"
-              onPress={() => Linking.openURL('https://twitter.com/ogtimothymiller')}
-            >
-              Tim Miller
-            </Text>
-            , give it a star{' '}
-            <Text 
-              className="text-primary-500 underline"
-              onPress={() => Linking.openURL('https://github.com/timothymiller/t4-app')}
-            >
-              on Github.
-            </Text>
+            A modern stack for building universal apps
           </Text>
           
           <Text className="text-center text-gray-600">
@@ -70,13 +57,13 @@ export function HomeScreen() {
           </Text>
 
           <View className="flex-row space-x-4">
-            <Button onPress={() => Linking.openURL('https://t4stack.com/')}>
-              Learn More...
+            <Button onPress={() => Linking.openURL('https://github.com/jjeremycai/boilerplate')}>
+              View on GitHub
             </Button>
           </View>
 
           <Text variant="h3" className="text-center mt-8">
-            🦮🐴 App Demos
+            App Demos
           </Text>
           
           <View className="space-y-2 w-full max-w-xs">
