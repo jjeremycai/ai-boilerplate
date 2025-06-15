@@ -47,7 +47,6 @@ bun install
 cp .env.example .env.local
 ```
 
-
 ### Development
 
 ```bash
@@ -126,8 +125,6 @@ export const userRouter = router({
 // Use anywhere with full types
 const { data } = trpc.user.getUser.useQuery({ id: '123' })
 ```
-
-
 
 ## Deployment
 
