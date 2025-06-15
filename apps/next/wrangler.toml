@@ -1,10 +1,21 @@
-name = "t4-stack"
-compatibility_date = "2023-10-30"
+name = "cai-web"
+compatibility_date = "2024-12-18"
+compatibility_flags = ["nodejs_compat"]
 send_metrics = false
-node_compat = true
-route = "app.t4stack.com/*"
-workers_dev = false
+main = ".open-next/worker.js"
+
+# For production deployment with custom domain
+# route = "app.your-domain.com/*"
+# workers_dev = false
+
+# For development/preview
+workers_dev = true
+
+# KV namespace for caching
+[[kv_namespaces]]
+binding = "CAI_CACHE"
+id = "YOUR_KV_NAMESPACE_ID"
 
 [env.preview]
-name = "t4-stack-preview"
+name = "cai-web-preview"
 workers_dev = true

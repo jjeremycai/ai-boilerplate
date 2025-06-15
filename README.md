@@ -17,7 +17,7 @@ Building apps for multiple platforms traditionally means:
 
 ### 🌍 Universal Platform Support
 Write once, deploy everywhere with platform-specific optimizations when needed:
-- **Web**: Next.js on Cloudflare Pages with PWA support
+- **Web**: Next.js on Cloudflare Workers with PWA support
 - **Mobile**: React Native with Expo (iOS & Android)
 - **Desktop**: Tauri 2.0 for native performance
 - **API**: Edge-first with Cloudflare Workers
@@ -103,14 +103,15 @@ Resend for transactional emails:
 
 ## Tech Stack
 
-- **Frontend**: React Native (Expo), Next.js, Tauri
-- **Styling**: Tailwind CSS, NativeWind v4, Catalyst UI
-- **Backend**: Cloudflare Workers, tRPC, Hono
+- **Frontend**: React Native (Expo SDK 51), Next.js 15, Tauri 2.0
+- **Styling**: Tailwind CSS v3, NativeWind v4, Catalyst UI
+- **Backend**: Cloudflare Workers, tRPC v11, Hono
 - **Database**: Cloudflare D1 with Drizzle ORM
 - **Auth**: Better Auth
 - **Email**: Resend
 - **Payments**: Stripe
-- **AI**: Vercel AI SDK
+- **AI**: Vercel AI SDK v4
+- **Deployment**: OpenNext for Cloudflare Workers
 - **Build**: Turborepo, Bun, Biome
 
 ## Getting Started
@@ -346,7 +347,7 @@ cd packages/api
 bun run deploy
 ```
 
-### 🌐 Web (90 seconds!)
+### 🌐 Web (60 seconds!)
 
 ```bash
 cd apps/next
@@ -371,7 +372,7 @@ bun run build
 
 - **6 second** package installs with Bun
 - **30 second** backend deployments to edge
-- **90 second** frontend deployments
+- **60 second** web deployments to Workers
 - **<50ms** global response times
 - **95%** code reuse across platforms
 - **99.9%** uptime with Cloudflare's edge network

@@ -133,7 +133,7 @@ cd packages/api
 bun run deploy
 ```
 
-### Web (Cloudflare Pages)
+### Web (Cloudflare Workers)
 ```bash
 cd apps/next
 bun run deploy
