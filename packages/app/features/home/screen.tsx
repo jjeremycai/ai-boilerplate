@@ -1,6 +1,6 @@
 import { Button, Container, ScrollView, Text } from '@cai/ui-tw'
-import { useSupabase } from 'app/utils/supabase/hooks/useSupabase'
-import { useUser } from 'app/utils/supabase/hooks/useUser'
+import { signOut } from 'app/utils/auth/client'
+import { useUser } from 'app/utils/auth/hooks/useUser'
 import { trpc } from 'app/utils/trpc'
 import React from 'react'
 import { Linking, View } from 'react-native'
@@ -9,7 +9,6 @@ import { useLink } from 'solito/link'
 
 export function HomeScreen() {
   const utils = trpc.useContext()
-  const supabase = useSupabase()
   const { user } = useUser()
 
   const signInLink = useLink({
@@ -90,7 +89,7 @@ export function HomeScreen() {
           {user ? (
             <Button
               onPress={async () => {
-                supabase.auth.signOut()
+                await signOut()
                 // Clear tanstack query cache of authenticated routes
                 utils.auth.secretMessage.reset()
               }}

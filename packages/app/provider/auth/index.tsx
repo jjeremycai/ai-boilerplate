@@ -1,13 +1,11 @@
-import { SessionContextProvider } from '@supabase/auth-helpers-react'
-import { supabase } from 'app/utils/supabase/client'
-import { AuthStatusChangeHandler } from '../../utils/supabase/components/AuthStatusChangeHandler'
-import { Props } from './index.web'
+import { ReactNode } from 'react'
 
-export const AuthProvider = ({ children, initialSession }: Props) => {
-  return (
-    <SessionContextProvider supabaseClient={supabase} initialSession={initialSession}>
-      <AuthStatusChangeHandler />
-      {children}
-    </SessionContextProvider>
-  )
+interface Props {
+  children: ReactNode
+}
+
+export const AuthProvider = ({ children }: Props) => {
+  // Better Auth handles session management internally
+  // No need for explicit provider on native
+  return <>{children}</>
 }

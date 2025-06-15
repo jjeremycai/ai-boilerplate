@@ -8,7 +8,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { httpBatchLink } from '@trpc/client'
 import { useState } from 'react'
 import superjson from 'superjson'
-import { supabase } from '../supabase/client'
 import { replaceLocalhost } from './localhost.native'
 
 /**
@@ -30,15 +29,8 @@ export const TRPCProvider: React.FC<{
       transformer: superjson,
       links: [
         httpBatchLink({
-          async headers() {
-            const { data } = await supabase.auth.getSession()
-            const token = data?.session?.access_token
-
-            return {
-              Authorization: token ? `Bearer ${token}` : undefined,
-            }
-          },
           url: `${getApiUrl()}/trpc`,
+          // Better Auth handles authentication via cookies/headers automatically
         }),
       ],
     })

@@ -1,13 +1,14 @@
-import { type Provider } from '@supabase/supabase-js'
 import { Button, Input, Paragraph, Stack, XStack, YStack } from '@cai/ui'
 import { useState } from 'react'
 import { SolitoImage } from 'solito/image'
 import { Link } from 'solito/link'
 
+type OAuthProvider = 'google' | 'github'
+
 interface Props {
   type: 'sign-up' | 'sign-in'
-  handleOAuthWithPress: (provider: Provider) => void
-  handleEmailWithPress: (email, password) => void
+  handleOAuthWithPress: (provider: OAuthProvider) => void
+  handleEmailWithPress: (email: string, password: string) => void
 }
 
 export const SignUpSignInComponent = ({
@@ -53,32 +54,17 @@ export const SignUpSignInComponent = ({
         </Button>
         <Button
           size='$5'
-          onPress={() => handleOAuthWithPress('apple')}
+          onPress={() => handleOAuthWithPress('github')}
           hoverStyle={{ opacity: 0.8 }}
           focusStyle={{ scale: 0.95 }}
           borderColor='$gray8Light'
         >
           <SolitoImage
             style={{ width: 22, height: 22 }}
-            src={'/auth/apple-logo.png'}
+            src={'/auth/github-logo.png'}
             width={22}
             height={22}
-            alt='Apple Logo'
-          />
-        </Button>
-        <Button
-          size='$5'
-          onPress={() => handleOAuthWithPress('discord')}
-          hoverStyle={{ opacity: 0.8 }}
-          focusStyle={{ scale: 0.95 }}
-          borderColor='$gray8Light'
-        >
-          <SolitoImage
-            style={{ width: 25, height: 22 }}
-            src={'/auth/discord-logo.png'}
-            width={20}
-            height={20}
-            alt='Discord Logo'
+            alt='GitHub Logo'
           />
         </Button>
       </XStack>

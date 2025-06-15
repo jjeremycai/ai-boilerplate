@@ -1,6 +1,5 @@
 import '../styles/globals.css'
 
-import type { Session } from '@supabase/supabase-js'
 import { Provider } from 'app/provider'
 import { trpc } from 'app/utils/trpc/index.web'
 import { DefaultSeo } from 'next-seo'
@@ -10,11 +9,11 @@ import type { SolitoAppProps } from 'solito'
 const title = `${process.env.NEXT_PUBLIC_METADATA_NAME}`
 const description = `${process.env.NEXT_PUBLIC_METADATA_DESCRIPTION}`
 
-const CaiApp = ({ Component, pageProps }: SolitoAppProps<{ initialSession: Session | null }>) => {
+const CaiApp = ({ Component, pageProps }: SolitoAppProps) => {
   return (
     <>
       <Metadata />
-      <Provider initialSession={pageProps.initialSession}>
+      <Provider>
         <Component {...pageProps} />
       </Provider>
     </>

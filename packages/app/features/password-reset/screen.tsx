@@ -1,25 +1,37 @@
 import { YStack, useToastController } from '@cai/ui'
 import { PasswordResetComponent } from '@cai/ui/src/PasswordReset'
-import { useSupabase } from 'app/utils/supabase/hooks/useSupabase'
+import { forgetPassword } from 'app/utils/auth/client'
 import { useRouter } from 'solito/router'
 
 export function PasswordResetScreen() {
   const { push } = useRouter()
   const toast = useToastController()
-  const supabase = useSupabase()
 
-  const handleEmailWithPress = async (email) => {
-    // Send email with the password reset link
-    const { error } = await supabase.auth.resetPasswordForEmail(email)
-    if (error) {
-      toast.show('Password reset request failed', {
-        description: error.message,
+  const handleEmailWithPress = async (email: string) => {
+    try {
+      // Send email with the password reset link
+      const { error } = await forgetPassword({
+        email,
+        redirectTo: '/password-reset/update-password',
       })
-      console.log('Password reset request failed', error)
-      return
-    }
+      
+      if (error) {
+        toast.show('Password reset request failed', {
+          description: error.message,
+        })
+        console.log('Password reset request failed', error)
+        return
+      }
 
-    push('/')
+      toast.show('Password reset email sent', {
+        description: 'Check your email for the reset link',
+      })
+      push('/')
+    } catch (error) {
+      toast.show('Password reset request failed', {
+        description: error instanceof Error ? error.message : 'An error occurred',
+      })
+    }
   }
 
   return (

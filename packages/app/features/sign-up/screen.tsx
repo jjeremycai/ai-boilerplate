@@ -1,52 +1,50 @@
-import type { Provider } from '@supabase/supabase-js'
 import { YStack, useToastController } from '@cai/ui'
 import { capitalizeWord } from '@cai/ui/src/libs/string'
 import { SignUpSignInComponent } from 'app/features/sign-in/SignUpSignIn'
-import { useSupabase } from 'app/utils/supabase/hooks/useSupabase'
+import { signIn, signUp } from 'app/utils/auth/client'
 import { useRouter } from 'solito/router'
+
+type OAuthProvider = 'google' | 'github'
 
 export const SignUpScreen = (): React.ReactNode => {
   const { push } = useRouter()
   const toast = useToastController()
-  const supabase = useSupabase()
 
-  const handleOAuthSignInWithPress = async (provider: Provider) => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: provider,
-      options:
-        provider === 'google'
-          ? {
-              queryParams: {
-                access_type: 'offline',
-                prompt: 'consent',
-              },
-            }
-          : {},
-    })
-    if (error) {
-      toast.show(`${capitalizeWord(provider)} sign up failed`, {
-        description: error.message,
+  const handleOAuthSignInWithPress = async (provider: OAuthProvider) => {
+    try {
+      await signIn.social({
+        provider,
+        callbackURL: '/',
       })
-      return
+    } catch (error) {
+      toast.show(`${capitalizeWord(provider)} sign up failed`, {
+        description: error instanceof Error ? error.message : 'An error occurred',
+      })
     }
-    push('/')
   }
 
   const handleEmailSignUpWithPress = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
-    if (error) {
-      console.log('error', error)
+    try {
+      const { data, error } = await signUp.email({
+        email,
+        password,
+      })
+      
+      if (error) {
+        console.log('error', error)
+        toast.show('Sign up failed', {
+          message: error.message,
+        })
+      } else if (data) {
+        toast.show('Email Confirmation', {
+          message: 'Check your email',
+        })
+        push('/')
+      }
+    } catch (error) {
       toast.show('Sign up failed', {
-        message: error.message,
+        message: error instanceof Error ? error.message : 'An error occurred',
       })
-    } else if (data?.user) {
-      toast.show('Email Confirmation', {
-        message: 'Check your email ',
-      })
-      push('/')
     }
   }
 

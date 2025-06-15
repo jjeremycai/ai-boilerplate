@@ -1,50 +1,49 @@
-import type { Provider } from '@supabase/supabase-js'
 import { YStack, useToastController } from '@cai/ui'
 import { capitalizeWord } from '@cai/ui/src/libs/string'
 import { SignUpSignInComponent } from 'app/features/sign-in/SignUpSignIn'
-import { useSupabase } from 'app/utils/supabase/hooks/useSupabase'
+import { signIn } from 'app/utils/auth/client'
 import { useRouter } from 'solito/router'
+
+type OAuthProvider = 'google' | 'github'
 
 export const SignInScreen = (): React.ReactNode => {
   const { replace } = useRouter()
-  const supabase = useSupabase()
   const toast = useToastController()
 
-  const handleOAuthSignInWithPress = async (provider: Provider) => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: provider,
-      options: {
-        scopes:
-          provider === 'google'
-            ? 'https://www.googleapis.com/auth/userinfo.email, https://www.googleapis.com/auth/userinfo.profile'
-            : 'read:user user:email',
-      },
-    })
-
-    if (error) {
+  const handleOAuthSignInWithPress = async (provider: OAuthProvider) => {
+    try {
+      await signIn.social({
+        provider,
+        callbackURL: '/',
+      })
+    } catch (error) {
       toast.show(`${capitalizeWord(provider)} sign in failed`, {
-        description: error.message,
+        description: error instanceof Error ? error.message : 'An error occurred',
       })
       console.log('OAuth Sign in failed', error)
-      return
     }
-
-    replace('/')
   }
 
   const handleEmailSignInWithPress = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    })
-    if (error) {
-      toast.show('Sign in failed', {
-        description: error.message,
+    try {
+      const { error } = await signIn.email({
+        email,
+        password,
       })
-      return
-    }
+      
+      if (error) {
+        toast.show('Sign in failed', {
+          description: error.message,
+        })
+        return
+      }
 
-    replace('/')
+      replace('/')
+    } catch (error) {
+      toast.show('Sign in failed', {
+        description: error instanceof Error ? error.message : 'An error occurred',
+      })
+    }
   }
 
   return (

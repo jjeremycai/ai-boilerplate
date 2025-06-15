@@ -1,24 +1,22 @@
 import { type inferAsyncReturnType } from '@trpc/server'
 import { type FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch'
-import jwt from '@tsndr/cloudflare-worker-jwt'
 import { DrizzleD1Database } from 'drizzle-orm/d1'
 import { createDb } from './db/client'
 import { ShardContext } from './lib/sharding/shard-context'
 import { AIService } from './services/ai.service'
-import { createClient } from '@supabase/supabase-js'
-
-interface User {
-  id: string
-}
+import { auth } from './lib/auth'
+import type { User } from './db/schema'
 
 export interface Env {
   DB: D1Database
-  JWT_VERIFICATION_KEY: string
+  AUTH_SECRET: string
   APP_URL: string
   OPENAI_API_KEY: string
-  SUPABASE_URL: string
-  SUPABASE_ANON_KEY: string
-  SUPABASE_SERVICE_ROLE_KEY: string
+  RESEND_API_KEY: string
+  GOOGLE_CLIENT_ID: string
+  GOOGLE_CLIENT_SECRET: string
+  GITHUB_CLIENT_ID: string
+  GITHUB_CLIENT_SECRET: string
   // Sharding bindings - dynamically discovered
   [key: string]: D1Database | string
 }
@@ -29,7 +27,6 @@ interface ApiContextProps {
   env: Env
   shardContext: ShardContext
   ai: AIService
-  supabase: ReturnType<typeof createClient>
 }
 
 export const createContext = async (
@@ -44,44 +41,21 @@ export const createContext = async (
   // Initialize AI Service
   const ai = new AIService(env.OPENAI_API_KEY)
 
-  // Initialize Supabase
-  const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY)
-
   async function getUser() {
     const sessionToken = opts.req.headers.get('authorization')?.split(' ')[1]
 
-    if (sessionToken !== undefined && sessionToken !== 'undefined') {
-      if (!env.JWT_VERIFICATION_KEY) {
-        console.error('JWT_VERIFICATION_KEY is not set')
-        return null
-      }
-
+    if (sessionToken && sessionToken !== 'undefined') {
       try {
-        const authorized = await jwt.verify(sessionToken, env.JWT_VERIFICATION_KEY, {
-          algorithm: 'HS256',
+        // Validate session with Better Auth
+        const session = await auth.api.getSession({ 
+          headers: opts.req.headers as any 
         })
-        if (!authorized) {
-          return null
-        }
-
-        const decodedToken = jwt.decode(sessionToken)
-
-        // Check if token is expired
-        const expirationTimestamp = decodedToken.payload.exp
-        const currentTimestamp = Math.floor(Date.now() / 1000)
-        if (!expirationTimestamp || expirationTimestamp < currentTimestamp) {
-          return null
-        }
-
-        const userId = decodedToken?.payload?.sub
-
-        if (userId) {
-          return {
-            id: userId,
-          }
+        
+        if (session?.user) {
+          return session.user
         }
       } catch (e) {
-        console.error(e)
+        console.error('Session validation error:', e)
       }
     }
 
@@ -90,7 +64,7 @@ export const createContext = async (
 
   const user = await getUser()
 
-  return { user, db, env, shardContext, ai, supabase }
+  return { user, db, env, shardContext, ai }
 }
 
 export type Context = inferAsyncReturnType<typeof createContext>

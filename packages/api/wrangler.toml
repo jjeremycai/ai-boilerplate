@@ -1,4 +1,4 @@
-name = "t4-api"
+name = "cai-api"
 compatibility_date = "2024-12-18"
 send_metrics = false
 node_compat = true
@@ -32,11 +32,13 @@ database_id = "YOUR_SHARD_002_ID"
 
 # The necessary secrets are:
 # - APP_URL - for preventing CORS errors
-# - JWT_VERIFICATION_KEY - for Supabase @link https://supabase.com
-# - OPENROUTER_API_KEY - for OpenRouter AI integration
-# - SUPABASE_URL - Supabase project URL
-# - SUPABASE_ANON_KEY - Supabase anonymous key
-# - SUPABASE_SERVICE_ROLE_KEY - Supabase service role key
+# - AUTH_SECRET - for Better Auth session management
+# - OPENAI_API_KEY - for AI integration
+# - RESEND_API_KEY - for email sending
+# - GOOGLE_CLIENT_ID - for Google OAuth
+# - GOOGLE_CLIENT_SECRET - for Google OAuth
+# - GITHUB_CLIENT_ID - for GitHub OAuth
+# - GITHUB_CLIENT_SECRET - for GitHub OAuth
 #
 # For local development, you can create a file called .dev.vars and use dotenv syntax.
 #

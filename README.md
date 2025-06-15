@@ -2,7 +2,7 @@
 
 A modern, production-ready boilerplate for building **truly universal** applications that run everywhere - web, iOS, Android, and desktop - using a single codebase.
 
-## The Problem We Solve
+## Why Cai Stack?
 
 Building apps for multiple platforms traditionally means:
 - Different codebases for web and mobile
@@ -127,8 +127,8 @@ Resend for transactional emails:
 
 ```bash
 # Clone the repository
-git clone https://github.com/jjeremycai/boilerplate.git cai-app
-cd cai-app
+git clone https://github.com/jjeremycai/cai-stack.git
+cd cai-stack
 
 # Install dependencies (6 second install with Bun!)
 bun install
@@ -139,6 +139,37 @@ cp .env.example .env.local
 
 # Start development (all platforms)
 bun dev
+```
+
+### Environment Variables
+
+Create a `.env.local` file with:
+
+```env
+# API Configuration
+NEXT_PUBLIC_API_URL=http://localhost:8787
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Better Auth
+AUTH_SECRET=your-auth-secret-here
+AUTH_URL=http://localhost:3000
+
+# OAuth Providers
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+
+# Email (Resend)
+RESEND_API_KEY=your-resend-api-key
+
+# AI (OpenAI or compatible)
+OPENAI_API_KEY=your-openai-api-key
+
+# Stripe (optional)
+STRIPE_SECRET_KEY=your-stripe-secret-key
+STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your-stripe-publishable-key
 ```
 
 ### Platform-Specific Development
@@ -252,6 +283,60 @@ await dbRouter.insertWithSharding({
 })
 ```
 
+### Authentication Flow
+
+```typescript
+// Sign up
+const { data, error } = await authClient.signUp.email({
+  email: "user@example.com",
+  password: "secure-password",
+  name: "John Doe"
+})
+
+// Sign in
+const session = await authClient.signIn.email({
+  email: "user@example.com",
+  password: "secure-password"
+})
+
+// OAuth
+await authClient.signIn.social({
+  provider: "google",
+  callbackURL: "/dashboard"
+})
+```
+
+### Email Sending
+
+```typescript
+// Send transactional email
+await resend.emails.send({
+  from: 'Cai Stack <noreply@caistack.com>',
+  to: ['user@example.com'],
+  subject: 'Welcome to Cai Stack!',
+  react: WelcomeEmail({ name: 'John' }),
+})
+```
+
+### Payment Processing
+
+```typescript
+// Create subscription
+const subscription = await stripe.subscriptions.create({
+  customer: customerId,
+  items: [{ price: 'price_monthly' }],
+  payment_behavior: 'default_incomplete',
+  expand: ['latest_invoice.payment_intent'],
+})
+
+// Handle webhooks
+const event = stripe.webhooks.constructEvent(
+  body,
+  signature,
+  webhookSecret
+)
+```
+
 ## Deployment
 
 ### 🚀 Backend (30 seconds!)
@@ -300,30 +385,81 @@ Cai Stack is perfect for:
 - **AI-Powered Apps**: Built-in AI SDK for LLM features
 - **High-Traffic Apps**: Sharding system handles millions of users
 
-## Why Choose Cai Stack?
+## Migration Guide
 
-### For Developers
-- Use familiar tools (Tailwind, TypeScript, React)
-- Single codebase for all platforms
-- Type safety from database to UI
-- Fast development cycle with hot reload
-- Great documentation and examples
+### From Supabase Auth to Better Auth
 
-### For Businesses
-- Ship 3x faster with one team
-- Reduce maintenance costs by 70%
-- Scale globally with edge deployment
-- Enterprise-ready security with Supabase
-- Pay fraction of AWS/Vercel costs
+1. Update environment variables
+2. Replace Supabase client with Better Auth client
+3. Update auth hooks and providers
+4. Migrate user data (Better Auth provides migration tools)
+
+### From AWS/Vercel to Cloudflare
+
+1. Set up Cloudflare account
+2. Configure D1 databases
+3. Update deployment scripts
+4. Migrate data to D1
+5. Update API endpoints
+
+## Troubleshooting
+
+### Common Issues
+
+**Module not found errors:**
+- Clear node_modules: `rm -rf node_modules && bun install`
+- Check import paths match package names
+
+**Auth not working:**
+- Verify AUTH_SECRET is set
+- Check OAuth redirect URLs
+- Ensure cookies are enabled
+
+**Database connection issues:**
+- Verify D1 database names in wrangler.toml
+- Check environment variables are loaded
+- Ensure migrations are applied
+
+**Build failures:**
+- Run `bun clean` to clear caches
+- Check for TypeScript errors: `bun typecheck`
+- Verify all dependencies are installed
+
+## Best Practices
+
+1. **Type Safety**: Always define types for API inputs/outputs
+2. **Component Reuse**: Build universal components when possible
+3. **Performance**: Use React.memo and useMemo appropriately
+4. **Error Handling**: Implement proper error boundaries
+5. **Testing**: Write tests for critical business logic
+6. **Security**: Never expose sensitive keys in client code
+7. **Monitoring**: Use Cloudflare Analytics for insights
+
+## Roadmap
+
+- [ ] React Native New Architecture support
+- [ ] Offline-first capabilities
+- [ ] Advanced caching strategies
+- [ ] GraphQL API option
+- [ ] Admin dashboard template
+- [ ] Component library documentation
+- [ ] E2E testing setup
+- [ ] CI/CD templates
 
 ## Community
 
-- [GitHub Issues](https://github.com/jjeremycai/boilerplate/issues) - Bug reports and feature requests
-- [GitHub Discussions](https://github.com/jjeremycai/boilerplate/discussions) - General discussions
+- [GitHub Issues](https://github.com/jjeremycai/cai-stack/issues) - Bug reports and feature requests
+- [GitHub Discussions](https://github.com/jjeremycai/cai-stack/discussions) - General discussions
 
 ## Contributing
 
 Contributions are welcome! Please read our contributing guidelines before submitting PRs.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
@@ -341,3 +477,5 @@ Special thanks to:
 - [Tailwind Labs](https://tailwindcss.com) - For Tailwind CSS and Catalyst UI Kit
 - [Cloudflare](https://cloudflare.com) - For the amazing edge platform
 - [Expo](https://expo.dev) - For making React Native development a joy
+- [Resend](https://resend.com) - For modern email infrastructure
+- [Stripe](https://stripe.com) - For payment processing
