@@ -63,3 +63,7 @@
 - [x] Integrate Vercel AI SDK
 - [x] Create universal component library
 - [x] Set up Tauri for desktop app
+- [x] Migrate from Next.js to Remix for better Cloudflare Workers support
+- [x] Configure Remix with native Cloudflare Workers deployment (no adapters)
+- [x] Integrate Catalyst UI components with Remix
+- [x] Update to latest Wrangler version

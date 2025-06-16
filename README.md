@@ -2,6 +2,8 @@
 
 A modern, production-ready boilerplate for building **truly universal** applications that run everywhere - web, iOS, Android, and desktop - using a single codebase.
 
+> **This is a template repository** - Use it as a starting point for your own projects. Click "Use this template" on GitHub or clone and customize it for your needs.
+
 ## Why Cai Stack?
 
 Building apps for multiple platforms traditionally means:
@@ -17,7 +19,7 @@ Building apps for multiple platforms traditionally means:
 
 ### 🌍 Universal Platform Support
 Write once, deploy everywhere with platform-specific optimizations when needed:
-- **Web**: Next.js on Cloudflare Workers with PWA support
+- **Web**: Remix on Cloudflare Workers with PWA support
 - **Mobile**: React Native with Expo (iOS & Android)
 - **Desktop**: Tauri 2.0 for native performance
 - **API**: Edge-first with Cloudflare Workers
@@ -103,7 +105,7 @@ Resend for transactional emails:
 
 ## Tech Stack
 
-- **Frontend**: React Native (Expo SDK 51), Next.js 15, Tauri 2.0
+- **Frontend**: React Native (Expo SDK 51), Remix (Vite), Tauri 2.0
 - **Styling**: Tailwind CSS v3, NativeWind v4, Catalyst UI
 - **Backend**: Cloudflare Workers, tRPC v11, Hono
 - **Database**: Cloudflare D1 with Drizzle ORM
@@ -111,7 +113,7 @@ Resend for transactional emails:
 - **Email**: Resend
 - **Payments**: Stripe
 - **AI**: Vercel AI SDK v4
-- **Deployment**: OpenNext for Cloudflare Workers
+- **Deployment**: Native Cloudflare Workers (no adapters needed)
 - **Build**: Turborepo, Bun, Biome
 
 ## Getting Started
@@ -177,7 +179,7 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your-stripe-publishable-key
 
 ```bash
 # Web only
-bun dev --filter=next
+bun dev --filter=web
 
 # Mobile only
 bun dev --filter=expo
@@ -194,7 +196,7 @@ bun dev --filter=api
 ```
 cai-stack/
 ├── apps/
-│   ├── next/          # Next.js web app
+│   ├── web/           # Remix web app
 │   ├── expo/          # React Native app
 │   └── desktop/       # Tauri desktop app
 ├── packages/
@@ -350,7 +352,7 @@ bun run deploy
 ### 🌐 Web (60 seconds!)
 
 ```bash
-cd apps/next
+cd apps/web
 bun run deploy
 ```
 

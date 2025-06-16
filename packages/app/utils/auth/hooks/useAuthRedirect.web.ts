@@ -1,16 +1,16 @@
-import { useRouter } from 'next/navigation'
+import { useNavigate } from '@remix-run/react'
 import { useEffect } from 'react'
 import { useSession } from '../client'
 
 export function useAuthRedirect(redirectTo = '/sign-in') {
-  const router = useRouter()
+  const navigate = useNavigate()
   const { data: session, isPending } = useSession()
 
   useEffect(() => {
     if (!isPending && !session) {
-      router.replace(redirectTo)
+      navigate(redirectTo, { replace: true })
     }
-  }, [session, isPending, router, redirectTo])
+  }, [session, isPending, navigate, redirectTo])
 
   return { session, isLoading: isPending }
 }

@@ -15,7 +15,7 @@ const envFile = join(rootDir, '.env.local')
 const devVarsPackages = ['packages/api']
 
 // Packages that need .env.local
-const envLocalPackages = ['apps/next', 'apps/expo']
+const envLocalPackages = ['apps/web', 'apps/expo']
 
 if (!existsSync(envFile)) {
   console.log('🛑 .env.local file does not exist')

@@ -7,7 +7,7 @@ The Cai Stack is a modern, production-ready boilerplate for building full-stack 
 ## Architecture
 
 ### Frontend
-- **Next.js**: Server-side rendering and static generation for web
+- **Remix**: Full-stack web framework with native Cloudflare Workers support
 - **Expo**: React Native framework for iOS and Android
 - **Vite + Tauri**: Fast desktop applications
 - **Tailwind CSS + NativeWind**: Universal styling across platforms
