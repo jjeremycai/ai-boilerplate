@@ -152,8 +152,8 @@ Create a `.env.local` file with:
 
 ```env
 # API Configuration
-NEXT_PUBLIC_API_URL=http://localhost:8787
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+PUBLIC_API_URL=http://localhost:8787
+PUBLIC_APP_URL=http://localhost:3000
 
 # Better Auth
 AUTH_SECRET=your-auth-secret-here
@@ -168,13 +168,16 @@ GITHUB_CLIENT_SECRET=your-github-client-secret
 # Email (Resend)
 RESEND_API_KEY=your-resend-api-key
 
-# AI (OpenAI or compatible)
+# AI (OpenAI)
 OPENAI_API_KEY=your-openai-api-key
+
+# Or Anthropic
+ANTHROPIC_API_KEY=your-anthropic-api-key
 
 # Stripe (optional)
 STRIPE_SECRET_KEY=your-stripe-secret-key
 STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your-stripe-publishable-key
+PUBLIC_STRIPE_PUBLISHABLE_KEY=your-stripe-publishable-key
 ```
 
 ### Platform-Specific Development

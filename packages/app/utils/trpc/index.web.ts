@@ -14,7 +14,7 @@ export const trpc = createTRPCNext<AppRouter>({
             (opts.direction === 'down' && opts.result instanceof Error),
         }),
         httpBatchLink({
-          url: `${process.env.NEXT_PUBLIC_API_URL}/trpc`,
+          url: `${process.env.PUBLIC_API_URL}/trpc`,
           credentials: 'include', // Include cookies for Better Auth
         }),
       ],

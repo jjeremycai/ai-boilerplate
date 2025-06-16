@@ -3,7 +3,7 @@ import type { Session, User } from '@cai/api/src/db/schema'
 
 // Create Better Auth client
 export const authClient = createAuthClient({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8787',
+  baseURL: process.env.PUBLIC_API_URL || 'http://localhost:8787',
 })
 
 // Export auth methods
