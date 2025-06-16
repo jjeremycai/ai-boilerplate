@@ -70,3 +70,7 @@
 - [x] Upgrade to Tailwind CSS v4 with PostCSS via Vite
 - [x] Update environment variables from NEXT_PUBLIC_* to PUBLIC_*
 - [x] Create boilerplate documentation (CUSTOMIZATION.md, SETUP.md)
+- [x] Migrate from Remix v2 to React Router v7 with SSR support
+- [x] Configure React Router v7 for Cloudflare Workers deployment
+- [x] Fix native dependency compatibility issues for web build
+- [x] Add missing UI package exports for universal components

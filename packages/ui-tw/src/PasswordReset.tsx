@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const UpdatePasswordForm = ({ 
+export const PasswordResetComponent = ({ 
   onSubmit,
   isLoading = false 
 }: { 
@@ -53,3 +53,6 @@ export const UpdatePasswordForm = ({
     </form>
   );
 };
+
+// Alias for backward compatibility
+export const UpdatePasswordForm = PasswordResetComponent;

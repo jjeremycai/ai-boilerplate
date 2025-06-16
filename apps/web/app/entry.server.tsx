@@ -4,8 +4,8 @@
  * For more information, see https://remix.run/file-conventions/entry.server
  */
 
-import type { AppLoadContext, EntryContext } from "@remix-run/cloudflare";
-import { RemixServer } from "@remix-run/react";
+import type { AppLoadContext, EntryContext } from "@react-router/cloudflare";
+import { ServerRouter } from "react-router";
 import { isbot } from "isbot";
 import { renderToReadableStream } from "react-dom/server";
 
@@ -25,7 +25,7 @@ export default async function handleRequest(
   const timeoutId = setTimeout(() => controller.abort(), ABORT_DELAY);
 
   const body = await renderToReadableStream(
-    <RemixServer
+    <ServerRouter
       context={remixContext}
       url={request.url}
       abortDelay={ABORT_DELAY}

@@ -1,4 +1,4 @@
-import type { AppLoadContext } from "@remix-run/cloudflare";
+import type { AppLoadContext } from "@react-router/cloudflare";
 
 export interface Env {
   // KV Namespaces
@@ -16,7 +16,7 @@ export interface Env {
   // Add other bindings as needed
 }
 
-declare module "@remix-run/cloudflare" {
+declare module "@react-router/cloudflare" {
   export interface AppLoadContext {
     env: Env;
   }

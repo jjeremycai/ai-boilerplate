@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction } from "@react-router/cloudflare";
 import { DataFetchingScreen } from "app/features/data-fetching/screen";
 
 export const meta: MetaFunction = () => {

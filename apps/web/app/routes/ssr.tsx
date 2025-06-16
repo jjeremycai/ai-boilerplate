@@ -1,6 +1,6 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
-import { json } from "@remix-run/cloudflare";
+import type { LoaderFunctionArgs, MetaFunction } from "@react-router/cloudflare";
+import { useLoaderData } from "react-router";
+import { json } from "@react-router/cloudflare";
 
 export const meta: MetaFunction = () => {
   return [

@@ -5,9 +5,9 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "remix vite:dev",
-    "build": "remix vite:build",
-    "build:worker": "remix vite:build",
+    "dev": "react-router dev",
+    "build": "react-router build",
+    "build:worker": "react-router build",
     "deploy": "bun run build && wrangler deploy",
     "preview": "bun run build && wrangler dev",
     "start": "wrangler dev",
@@ -17,19 +17,21 @@
   },
   "dependencies": {
     "@cai/ui-tw": "workspace:*",
-    "@remix-run/cloudflare": "^2.16.8",
-    "@remix-run/react": "^2.16.8",
+    "@react-router/cloudflare": "^7.2.0",
     "@tsndr/cloudflare-worker-jwt": "^3.2.0",
     "app": "workspace:*",
     "isbot": "^4.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native-web": "^0.20.0"
+    "react-native-web": "^0.20.0",
+    "react-router": "^7.2.0",
+    "react-router-dom": "^7.2.0"
   },
   "devDependencies": {
     "@cloudflare/kv-asset-handler": "^0.4.0",
     "@cloudflare/workers-types": "^4.20250614.0",
-    "@remix-run/dev": "^2.16.8",
+    "@react-router/dev": "^7.2.0",
+    "@react-router/fs-routes": "^7.2.0",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "autoprefixer": "^10.4.21",

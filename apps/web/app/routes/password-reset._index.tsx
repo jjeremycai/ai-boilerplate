@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction } from "@react-router/cloudflare";
 import { PasswordResetScreen } from "app/features/password-reset/screen";
 
 export const meta: MetaFunction = () => {

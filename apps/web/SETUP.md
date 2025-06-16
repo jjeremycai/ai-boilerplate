@@ -1,6 +1,6 @@
 # Web App Setup Guide
 
-This guide will help you set up the Remix web app for your project.
+This guide will help you set up the React Router v7 web app for your project.
 
 ## Quick Start
 
@@ -75,7 +75,7 @@ bun run deploy
 
 Create `app/routes/your-page.tsx`:
 ```typescript
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction } from "@react-router/cloudflare";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Your Page Title" }];
@@ -90,8 +90,8 @@ export default function YourPage() {
 
 Create `app/routes/api.your-endpoint.tsx`:
 ```typescript
-import { json } from "@remix-run/cloudflare";
-import type { ActionFunctionArgs } from "@remix-run/cloudflare";
+import { json } from "@react-router/cloudflare";
+import type { ActionFunctionArgs } from "@react-router/cloudflare";
 
 export async function action({ request, context }: ActionFunctionArgs) {
   const data = await request.json();
@@ -103,7 +103,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
 ### Use Cloudflare KV
 
 ```typescript
-import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
+import type { LoaderFunctionArgs } from "@react-router/cloudflare";
 
 export async function loader({ context }: LoaderFunctionArgs) {
   // Read from KV
@@ -120,6 +120,6 @@ export async function loader({ context }: LoaderFunctionArgs) {
 
 ## Need Help?
 
-- [Remix Docs](https://remix.run/docs)
+- [React Router Docs](https://reactrouter.com/)
 - [Cloudflare Workers Docs](https://developers.cloudflare.com/workers/)
 - [Wrangler CLI Docs](https://developers.cloudflare.com/workers/wrangler/)

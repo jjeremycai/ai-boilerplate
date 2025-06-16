@@ -1,30 +1,17 @@
-import {
-  vitePlugin as remix,
-  cloudflareDevProxyVitePlugin as remixCloudflareDevProxy,
-} from "@remix-run/dev";
+import { reactRouter } from "@react-router/dev/vite";
+import { cloudflareDevProxy } from "@react-router/dev/vite/cloudflare";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import path from "path";
 
-declare module "@remix-run/cloudflare" {
-  interface Future {
-    v3_singleFetch: true;
-  }
-}
-
 export default defineConfig({
   plugins: [
-    remixCloudflareDevProxy(),
-    remix({
-      future: {
-        v3_fetcherPersist: true,
-        v3_relativeSplatPath: true,
-        v3_throwAbortReason: true,
-        v3_singleFetch: true,
-        v3_lazyRouteDiscovery: true,
-      },
+    cloudflareDevProxy(),
+    reactRouter({
+      ssr: true,
       serverModuleFormat: "esm",
       serverBuildFile: "server/index.js",
+      buildDirectory: "build",
     }),
     tsconfigPaths(),
   ],
@@ -40,15 +27,22 @@ export default defineConfig({
       { find: /^expo-image$/, replacement: path.resolve(__dirname, "./app/noop.js") },
       { find: /^expo-modules-core$/, replacement: path.resolve(__dirname, "./app/noop.js") },
       { find: "react-native-web/Libraries/Image/resolveAssetSource", replacement: path.resolve(__dirname, "./app/noop.js") },
+      { find: "solito/image", replacement: path.resolve(__dirname, "./app/noop.js") },
+      { find: "solito/router", replacement: path.resolve(__dirname, "./app/noop.js") },
+      { find: "solito/navigation", replacement: path.resolve(__dirname, "./app/noop.js") },
+      { find: "solito/link", replacement: path.resolve(__dirname, "./app/noop.js") },
+      { find: /^expo-constants$/, replacement: path.resolve(__dirname, "./app/noop.js") },
     ],
   },
   optimizeDeps: {
-    exclude: ["react-native", "nativewind", "react-native-css-interop", "expo-image", "expo-modules-core"],
+    exclude: ["react-native", "nativewind", "react-native-css-interop", "expo-image", "expo-modules-core", "solito"],
   },
   ssr: {
     noExternal: ["react-native-web"],
+    target: "webworker",
     resolve: {
       conditions: ["workerd", "worker", "browser"],
+      externalConditions: ["workerd", "worker"],
     },
   },
   server: {

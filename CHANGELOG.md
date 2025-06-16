@@ -5,6 +5,24 @@ All notable changes to the Cai Stack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.0] - 2025-01-16
+
+### Changed
+- Migrated from Remix v2 to React Router v7 (the evolution of Remix)
+- Updated all imports from `@remix-run/*` to `@react-router/*`
+- Configured SSR support for Cloudflare Workers
+- Added comprehensive native dependency compatibility layer
+
+### Added
+- `app/routes.ts` configuration file for React Router v7
+- Missing UI package exports (Toast, Headings, VirtualList)
+- Compatibility shims for Solito, Expo, and React Native dependencies
+
+### Fixed
+- Build issues with native dependencies in web environment
+- Missing component exports in UI package
+- SSR configuration for edge deployment
+
 ## [3.0.0] - 2024-12-19
 
 ### Changed
