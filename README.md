@@ -4,6 +4,8 @@ A modern, production-ready boilerplate for building **truly universal** applicat
 
 > **This is a template repository** - Use it as a starting point for your own projects. Click "Use this template" on GitHub or clone and customize it for your needs.
 
+> **🚀 Now powered by Remix!** We've migrated from Next.js to Remix for better Cloudflare Workers integration, improved performance, and native edge computing support.
+
 ## Why Cai Stack?
 
 Building apps for multiple platforms traditionally means:
@@ -25,7 +27,7 @@ Write once, deploy everywhere with platform-specific optimizations when needed:
 - **API**: Edge-first with Cloudflare Workers
 
 ### 🎨 Unified Design System
-- **Tailwind CSS**: Industry-standard utility-first CSS
+- **Tailwind CSS v4**: Latest version with improved performance and features
 - **NativeWind v4**: Use Tailwind classes in React Native
 - **Catalyst UI Kit**: Premium components from Tailwind team
 - **Platform-aware**: Automatic adjustments for each platform
@@ -106,7 +108,7 @@ Resend for transactional emails:
 ## Tech Stack
 
 - **Frontend**: React Native (Expo SDK 51), Remix (Vite), Tauri 2.0
-- **Styling**: Tailwind CSS v3, NativeWind v4, Catalyst UI
+- **Styling**: Tailwind CSS v4, NativeWind v4, Catalyst UI
 - **Backend**: Cloudflare Workers, tRPC v11, Hono
 - **Database**: Cloudflare D1 with Drizzle ORM
 - **Auth**: Better Auth

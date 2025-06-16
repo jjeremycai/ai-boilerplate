@@ -67,3 +67,6 @@
 - [x] Configure Remix with native Cloudflare Workers deployment (no adapters)
 - [x] Integrate Catalyst UI components with Remix
 - [x] Update to latest Wrangler version
+- [x] Upgrade to Tailwind CSS v4 with PostCSS via Vite
+- [x] Update environment variables from NEXT_PUBLIC_* to PUBLIC_*
+- [x] Create boilerplate documentation (CUSTOMIZATION.md, SETUP.md)
