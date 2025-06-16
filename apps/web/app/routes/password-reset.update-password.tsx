@@ -1,12 +1,9 @@
-import type { MetaFunction } from "@react-router/cloudflare";
-import { UpdatePasswordScreen } from "app/features/password-reset/update-password/screen";
+import { createFileRoute } from '@tanstack/react-router'
+import { UpdatePasswordScreen } from "app/features/password-reset/update-password/screen"
 
-export const meta: MetaFunction = () => {
-  return [
+export const Route = createFileRoute('/password-reset/update-password')({
+  meta: () => [
     { title: "Update Password" },
-  ];
-};
-
-export default function UpdatePassword() {
-  return <UpdatePasswordScreen />;
-}
+  ],
+  component: UpdatePasswordScreen,
+})

@@ -1,16 +1,16 @@
-# Cai Stack Project Documentation
+# TanStack D1 Stack - Project Documentation
 
 ## Overview
 
-The Cai Stack is a modern, production-ready boilerplate for building full-stack applications that run everywhere - web, mobile, and desktop. Built with performance and developer experience in mind.
+TanStack D1 Stack is a modern, production-ready boilerplate that combines TanStack Start for the frontend with Cloudflare D1 as the edge database. It provides a complete solution for building universal applications that run on web, mobile, and desktop platforms with edge-first architecture.
 
 ## Architecture
 
 ### Frontend
-- **React Router v7**: Full-stack web framework (evolution of Remix) with native Cloudflare Workers SSR support
+- **TanStack Start**: Full-stack React framework with SSR, streaming, and server functions
 - **Expo**: React Native framework for iOS and Android
-- **Vite + Tauri**: Fast desktop applications
-- **Tailwind CSS + NativeWind**: Universal styling across platforms
+- **Tauri 2.0**: Native desktop applications
+- **Tailwind CSS v4 + Catalyst**: Universal styling with premium components
 
 ### Backend
 - **Cloudflare Workers**: Edge computing for global performance
@@ -22,6 +22,7 @@ The Cai Stack is a modern, production-ready boilerplate for building full-stack 
 - **Turborepo**: Efficient monorepo builds
 - **Bun**: Fast JavaScript runtime and package manager
 - **TypeScript**: Full type safety across the stack
+- **Vinxi**: Vite-based bundler for TanStack Start
 - **Biome**: Fast formatting and linting
 
 ## Key Features
@@ -47,24 +48,25 @@ Built-in Vercel AI SDK support:
 - Token usage tracking
 
 ### Authentication
-Supabase Auth integration:
+Better Auth integration:
+- Edge-optimized authentication
 - JWT verification at the edge
-- Protected API routes
-- Session management
-- Social login support
+- Protected API routes and server functions
+- Session management with KV storage
+- Email/password and social login support
 
 ## Project Structure
 
 ```
-cai-stack/
+tanstack-d1/
 ├── apps/
-│   ├── next/          # Next.js web application
+│   ├── web/           # TanStack Start web application
 │   ├── expo/          # React Native mobile app
 │   └── desktop/       # Tauri desktop application
 ├── packages/
 │   ├── api/           # tRPC API & Workers
 │   ├── app/           # Shared app logic
-│   └── ui-tw/         # UI component library
+│   └── ui-tw/         # UI component library with Catalyst
 └── turbo.json         # Turborepo configuration
 ```
 
@@ -74,7 +76,7 @@ cai-stack/
 - Bun (latest)
 - Node.js 18+
 - Cloudflare account
-- Supabase account
+- Resend account (for emails)
 
 ### Quick Start
 
@@ -135,7 +137,7 @@ bun run deploy
 
 ### Web (Cloudflare Workers)
 ```bash
-cd apps/next
+cd apps/web
 bun run deploy
 ```
 

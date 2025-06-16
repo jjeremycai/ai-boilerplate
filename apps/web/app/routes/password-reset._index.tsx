@@ -1,12 +1,9 @@
-import type { MetaFunction } from "@react-router/cloudflare";
-import { PasswordResetScreen } from "app/features/password-reset/screen";
+import { createFileRoute } from '@tanstack/react-router'
+import { PasswordResetScreen } from "app/features/password-reset/screen"
 
-export const meta: MetaFunction = () => {
-  return [
+export const Route = createFileRoute('/password-reset/_index')({
+  meta: () => [
     { title: "Password Reset" },
-  ];
-};
-
-export default function PasswordReset() {
-  return <PasswordResetScreen />;
-}
+  ],
+  component: PasswordResetScreen,
+})

@@ -1,5 +1,5 @@
 {
-  "name": "cai-stack-monorepo",
+  "name": "tanstack-d1",
   "private": true,
   "license": "MIT",
   "version": "3.0.0",
@@ -48,6 +48,10 @@
     "workerd": "^1.20250614.0"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.121.16",
+    "@tanstack/react-start": "^1.121.16",
+    "@tanstack/router-generator": "^1.121.16",
+    "@tanstack/start": "^1.120.20",
     "tailwindcss": "^4.1.10"
   }
 }
