@@ -219,3 +219,22 @@ export const ShardMetadataTable = sqliteTable('ShardMetadata', {
 
 export type ShardMetadata = InferSelectModel<typeof ShardMetadataTable>
 export type InsertShardMetadata = InferInsertModel<typeof ShardMetadataTable>
+
+// Chat Messages - Not sharded, stored in primary DB for simplicity
+export const ChatMessageTable = sqliteTable('ChatMessage', {
+  id: text('id').primaryKey(),
+  content: text('content').notNull(),
+  userId: text('userId').notNull().references(() => user.id),
+  roomId: text('roomId').notNull().default('general'), // For future room/channel support
+  parentId: text('parentId'), // For threaded messages
+  edited: integer('edited', { mode: 'boolean' }).notNull().default(false),
+  editedAt: integer('editedAt', { mode: 'timestamp' }),
+  createdAt: integer('createdAt', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
+})
+
+export type ChatMessage = InferSelectModel<typeof ChatMessageTable>
+export type InsertChatMessage = InferInsertModel<typeof ChatMessageTable>
+export const insertChatMessageSchema = createInsertSchema(ChatMessageTable)
+export const selectChatMessageSchema = createSelectSchema(ChatMessageTable)

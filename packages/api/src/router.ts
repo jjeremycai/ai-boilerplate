@@ -1,6 +1,7 @@
 import { aiRouter } from './routes/ai'
 import { authRouter } from './routes/auth'
 import { carsRouter } from './routes/cars'
+import { chatRouter } from './routes/chat'
 import { helloRouter } from './routes/hello'
 import { userRouter } from './routes/user'
 import { router } from './trpc'
@@ -16,6 +17,7 @@ export const appRouter = router({
   user: userRouter,
   auth: authRouter,
   car: carsRouter,
+  chat: chatRouter,
   ai: aiRouter,
   
   // Page-specific routers for eliminating waterfalls

@@ -10,7 +10,8 @@ import {
   KeyIcon,
   SparklesIcon,
   ArrowRightOnRectangleIcon,
-  UserPlusIcon
+  UserPlusIcon,
+  ChatBubbleLeftRightIcon
 } from '@heroicons/react/24/outline'
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
@@ -18,6 +19,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   
   const navigation = [
     { name: 'Home', href: '/', icon: HomeIcon },
+    { name: 'Chat', href: '/chat', icon: ChatBubbleLeftRightIcon },
     { name: 'Data Fetching', href: '/data-fetching', icon: ArrowPathIcon },
     { name: 'SSR Demo', href: '/ssr', icon: RectangleStackIcon },
     { name: 'Virtual List', href: '/virtualized-list', icon: ListBulletIcon },
