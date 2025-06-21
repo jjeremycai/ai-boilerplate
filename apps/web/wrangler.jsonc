@@ -25,13 +25,29 @@
   // To list secrets: wrangler secret list
   // To delete a secret: wrangler secret delete SECRET_NAME
   
-  // KV namespace for caching and sessions
-  // TODO: Create namespace with: wrangler kv:namespace create "CACHE"
-  // Then update the ID below
+  // KV namespaces for caching, sessions, and request handling
+  // TODO: Create namespaces with:
+  // wrangler kv:namespace create "CACHE"
+  // wrangler kv:namespace create "DEDUPE"
+  // wrangler kv:namespace create "HTML_CACHE"
+  // wrangler kv:namespace create "REQUEST_CACHE"
+  // Then update the IDs below
   "kv_namespaces": [
     {
       "binding": "CAI_CACHE",
-      "id": "YOUR_KV_NAMESPACE_ID" // TODO: Replace with your KV namespace ID
+      "id": "YOUR_CACHE_NAMESPACE_ID" // TODO: Replace with your KV namespace ID
+    },
+    {
+      "binding": "CAI_DEDUPE",
+      "id": "YOUR_DEDUPE_NAMESPACE_ID" // TODO: Replace with your KV namespace ID
+    },
+    {
+      "binding": "CAI_HTML_CACHE",
+      "id": "YOUR_HTML_CACHE_NAMESPACE_ID" // TODO: Replace with your KV namespace ID
+    },
+    {
+      "binding": "CAI_REQUEST_CACHE",
+      "id": "YOUR_REQUEST_CACHE_NAMESPACE_ID" // TODO: Replace with your KV namespace ID
     }
   ],
   

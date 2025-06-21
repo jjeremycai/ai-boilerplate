@@ -19,3 +19,10 @@ export const getEnv = createServerFn(
     return env
   }
 )
+
+// Re-export utilities for convenience
+export * from './cache'
+export * from './dedupe'
+export * from './analytics'
+export * from './geo'
+export * from '../utils/cf-env'
