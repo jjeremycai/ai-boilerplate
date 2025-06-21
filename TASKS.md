@@ -19,6 +19,11 @@
 - [x] Implement Better Auth for edge
 - [x] Create tRPC API layer
 - [x] Add AI integration with Vercel SDK
+- [x] Implement per-page tRPC procedures to eliminate waterfalls
+  - [x] Created dashboard page router with parallel data fetching
+  - [x] Created home page router for authenticated/public views
+  - [x] Created profile page router with comprehensive user data
+  - [x] Created posts listing router with pagination and filters
 
 ## 🚧 In Progress
 
